@@ -1,0 +1,92 @@
+---
+import { Server, LayoutDashboard, TestTubes, Briefcase, GraduationCap, MapPin } from 'lucide-react';
+import {
+  skillGroups,
+  experience,
+  education,
+  type SkillGroupId,
+} from '../../data/portfolioData';
+
+const groupIcons = {
+  backend: Server,
+  frontend: LayoutDashboard,
+  'qa-devops': TestTubes,
+} satisfies Record<SkillGroupId, unknown>;
+
+// Single chronological-style list: work history first, then education.
+const timeline = [...experience, ...education];
+---
+
+<section id="experience" class="section-padding border-t border-[#233554]">
+  <div class="container-page">
+    <!-- Part 1: Technical arsenal -->
+    <header class="max-w-2xl">
+      <p class="font-mono text-sm text-electric-cyan">// 01. technical arsenal</p>
+      <h2 class="section-heading mt-2">Skills & Expertise</h2>
+      <p class="mt-3 text-muted-slate">
+        The tools I use to take products from prototype to production.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-3">
+      {
+        skillGroups.map((group) => {
+          const Icon = groupIcons[group.id];
+          return (
+            <article class="card card-hover p-6">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-electric-cyan/10 text-electric-cyan">
+                  <Icon size={20} aria-hidden="true" />
+                </span>
+                <h3 class="text-lg font-semibold text-white">{group.title}</h3>
+              </div>
+              <ul class="mt-5 flex flex-wrap gap-2">
+                {group.skills.map((skill) => (
+                  <li class="tag-mono">{skill}</li>
+                ))}
+              </ul>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <!-- Part 2: Career & education timeline -->
+    <header class="mt-20 max-w-2xl">
+      <p class="font-mono text-sm text-electric-cyan">// 02. career &amp; education</p>
+      <h2 class="section-heading mt-2">Experience & Education</h2>
+    </header>
+
+    <ol class="relative mt-10 ml-4 border-l border-[#233554] sm:ml-5">
+      {
+        timeline.map((item) => {
+          const Icon = item.kind === 'education' ? GraduationCap : Briefcase;
+          const meta = [item.period, item.location].filter(Boolean);
+          return (
+            <li class="relative pb-10 pl-8 last:pb-0 sm:pl-10">
+              <span class="absolute -left-4 top-0 inline-flex size-8 items-center justify-center rounded-full border border-[#233554] bg-slate-card text-electric-cyan">
+                <Icon size={16} aria-hidden="true" />
+              </span>
+              <div class="card p-5">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h3 class="text-lg font-semibold text-white">{item.role}</h3>
+                  {item.kind === 'education' && <span class="tag-mono">Education</span>}
+                </div>
+                <p class="mt-1 font-medium text-electric-cyan">{item.organization}</p>
+                {meta.length > 0 && (
+                  <p class="mt-1 flex items-center gap-1.5 font-mono text-xs text-muted-slate">
+                    {item.location && !item.period && <MapPin size={12} aria-hidden="true" />}
+                    {meta.join(' · ')}
+                  </p>
+                )}
+                {item.description && (
+                  <p class="mt-3 text-sm leading-relaxed text-muted-slate">{item.description}</p>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

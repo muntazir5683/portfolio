@@ -1,0 +1,138 @@
+---
+import { ArrowRight, Terminal } from 'lucide-react';
+import { profile } from '../../data/portfolioData';
+import SocialIcon from './SocialIcon.astro';
+
+const [firstRole = ''] = profile.roles;
+---
+
+<section class="hero relative isolate overflow-hidden">
+  <!-- Decorative background: CSS grid + radial glow (static, GPU-friendly, no libraries) -->
+  <div class="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="hero-glow pointer-events-none absolute left-1/2 top-0 -z-10" aria-hidden="true"></div>
+
+  <div class="container-page flex min-h-[calc(100svh-4rem)] min-w-0 flex-col justify-center py-20 sm:py-28">
+    <div
+      class="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-status/30 bg-emerald-status/10 px-3.5 py-1.5 font-mono text-xs text-emerald-status sm:text-sm"
+    >
+      <span class="relative flex size-2">
+        <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-status opacity-75"></span>
+        <span class="relative inline-flex size-2 rounded-full bg-emerald-status"></span>
+      </span>
+      {profile.availability}
+    </div>
+
+    <h1 class="mt-6 max-w-full break-words text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+      <span class="block text-2xl font-semibold text-muted-slate sm:text-3xl">Hi, I'm</span>
+      <span class="block bg-gradient-to-r from-white to-electric-cyan bg-clip-text text-transparent">
+        {profile.name}
+      </span>
+    </h1>
+
+    <p class="mt-4 max-w-2xl text-lg font-semibold text-white sm:text-2xl">
+      {profile.headline}
+    </p>
+
+    <!-- Role ticker: first role is rendered in HTML, so it works without JS -->
+    <p class="mt-4 min-h-7 font-mono text-base text-electric-cyan sm:min-h-8 sm:text-xl">
+      <span class="mr-2 text-muted-slate">&gt;</span>
+      <span
+        id="role-ticker"
+        data-roles={JSON.stringify(profile.roles)}
+        class="inline-block transition duration-300 ease-out"
+      >{firstRole}</span><span class="caret" aria-hidden="true"></span>
+    </p>
+
+    <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted-slate sm:text-lg">
+      {profile.summary}
+    </p>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <a href="#automations" class="btn-primary">
+        <Terminal size={18} aria-hidden="true" />
+        Test Live Automations
+      </a>
+      <a href="#projects" class="btn-outline">
+        Explore Projects
+        <ArrowRight size={18} aria-hidden="true" />
+      </a>
+    </div>
+
+    <ul class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+      {
+        profile.socials.map((social) => (
+          <li>
+            <a
+              href={social.url}
+              target={social.id === 'email' ? undefined : '_blank'}
+              rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+              class="inline-flex items-center gap-2 text-sm text-muted-slate transition-colors hover:text-electric-cyan"
+              aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
+            >
+              <SocialIcon id={social.id} />
+              <span>{social.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero-grid {
+    opacity: 0.35;
+    background-image:
+      linear-gradient(to right, #233554 1px, transparent 1px),
+      linear-gradient(to bottom, #233554 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 25%, #000 20%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 25%, #000 20%, transparent 75%);
+  }
+
+  .hero-glow {
+    width: min(900px, 140vw);
+    height: 520px;
+    transform: translate(-50%, -30%);
+    background: radial-gradient(closest-side, rgb(56 189 248 / 0.18), transparent);
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1.1em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: #38bdf8;
+    animation: blink 1s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  const el = document.getElementById('role-ticker');
+  if (el) {
+    const roles: string[] = JSON.parse(el.dataset.roles ?? '[]');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0;
+    if (roles.length > 1) {
+      setInterval(() => {
+        i = (i + 1) % roles.length;
+        if (reduceMotion) {
+          el.textContent = roles[i] ?? '';
+          return;
+        }
+        el.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => {
+          el.textContent = roles[i] ?? '';
+          el.classList.remove('opacity-0', 'translate-y-2');
+        }, 300);
+      }, 2600);
+    }
+  }
+</script>

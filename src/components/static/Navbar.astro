@@ -1,0 +1,125 @@
+---
+import { Menu, X } from 'lucide-react';
+import { profile, navLinks } from '../../data/portfolioData';
+import SocialIcon from './SocialIcon.astro';
+
+// "SM." -> "SM" + accented "."
+const brandText = profile.brand.slice(0, -1);
+const brandAccent = profile.brand.slice(-1);
+---
+
+<header class="sticky top-0 z-50 border-b border-[#233554] bg-[#0A192F]/85 backdrop-blur-md">
+  <nav class="container-page flex h-16 min-w-0 items-center justify-between gap-3" aria-label="Primary">
+    <a
+      href="#"
+      class="shrink-0 font-mono text-xl font-bold tracking-tight text-white"
+      aria-label={`${profile.name} — back to top`}
+    >
+      {brandText}<span class="text-electric-cyan">{brandAccent}</span>
+    </a>
+
+    <ul class="hidden min-w-0 items-center gap-6 lg:flex xl:gap-8">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="text-sm font-medium text-muted-slate transition-colors hover:text-electric-cyan"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
+      {
+        profile.socials.length > 0 && (
+          <ul class="hidden items-center gap-1.5 md:flex" aria-label="Social profiles">
+            {profile.socials.map((social) => (
+              <li>
+                <a
+                  href={social.url}
+                  target={social.id === 'email' ? undefined : '_blank'}
+                  rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+                  class="inline-flex size-9 items-center justify-center rounded-lg border border-[#233554] text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                  aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
+                >
+                  <SocialIcon id={social.id} size={16} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      <a href="#contact" class="btn-primary !px-3 !py-2 text-sm sm:!px-4">Hire Me</a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="group inline-flex size-10 items-center justify-center rounded-lg border border-[#233554] text-white transition-colors hover:border-electric-cyan lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        <Menu size={20} className="block group-aria-expanded:hidden" aria-hidden="true" />
+        <X size={20} className="hidden group-aria-expanded:block" aria-hidden="true" />
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden border-t border-[#233554] lg:hidden">
+    <ul class="container-page flex flex-col py-2">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="block rounded-lg px-2 py-3 text-base font-medium text-muted-slate transition-colors hover:text-electric-cyan"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      profile.socials.length > 0 && (
+        <ul
+          class="container-page flex flex-wrap gap-2 border-t border-[#233554] py-3"
+          aria-label="Social profiles"
+        >
+          {profile.socials.map((social) => (
+            <li>
+              <a
+                href={social.url}
+                target={social.id === 'email' ? undefined : '_blank'}
+                rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+                class="inline-flex items-center gap-2 rounded-lg border border-[#233554] px-3 py-2 text-sm text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
+              >
+                <SocialIcon id={social.id} size={16} />
+                {social.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const setOpen = (open: boolean) => {
+    menu?.classList.toggle('hidden', !open);
+    btn?.setAttribute('aria-expanded', String(open));
+  };
+  btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+</script>
