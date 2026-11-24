@@ -16,6 +16,7 @@ import {
   Gauge,
   Loader2,
   MessageSquare,
+  Pill,
   Play,
   RotateCcw,
   ShieldCheck,
@@ -50,6 +51,7 @@ const presetIcons: Record<WorkflowPreset['icon'], LucideIcon> = {
   FileSearch,
   ShieldCheck,
   MessageSquare,
+  Pill,
 };
 
 const logStyles: Record<LogLevel, { tag: string; text: string }> = {
@@ -314,7 +316,7 @@ export default function AutomationSandbox() {
       <div
         role="tablist"
         aria-label="Automation workflows"
-        className="grid gap-3 md:grid-cols-3"
+        className="grid gap-3 sm:grid-cols-2"
         onKeyDown={handleTabKeys}
       >
         {workflowPresets.map((p, i) => {
