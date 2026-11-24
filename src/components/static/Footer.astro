@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 ---
 
 <!-- Extra bottom padding clears the floating AI assistant FAB on mobile -->
-<footer class="border-t border-[#233554] bg-navy pb-24 sm:pb-12">
+<footer class="border-t border-white/[0.08] bg-navy pb-24 sm:pb-12">
   <div class="container-page py-12">
     <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
       <div class="min-w-0">
@@ -28,7 +28,7 @@ const year = new Date().getFullYear();
               <li>
                 <a
                   href={link.href}
-                  class="text-sm text-muted-slate transition-colors hover:text-electric-cyan"
+                  class="text-sm text-muted-slate transition-colors hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -46,7 +46,7 @@ const year = new Date().getFullYear();
                 href={social.url}
                 target={social.id === 'email' ? undefined : '_blank'}
                 rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                class="inline-flex size-10 items-center justify-center rounded-lg border border-[#233554] text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                class="inline-flex size-10 items-center justify-center rounded-lg border border-white/10 text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                 aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
               >
                 <SocialIcon id={social.id} />
@@ -58,7 +58,7 @@ const year = new Date().getFullYear();
     </div>
 
     <div
-      class="mt-10 flex flex-col gap-3 border-t border-[#233554] pt-6 text-xs text-muted-slate sm:flex-row sm:items-center sm:justify-between"
+      class="mt-10 flex flex-col gap-3 border-t border-white/[0.08] pt-6 text-xs text-muted-slate sm:flex-row sm:items-center sm:justify-between"
     >
       <p class="min-w-0 break-words">
         &copy; <span id="footer-year">{year}</span>

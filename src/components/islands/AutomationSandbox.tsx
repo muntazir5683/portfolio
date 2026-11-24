@@ -85,7 +85,7 @@ function highlightJson(json: string): ReactNode[] {
     if (str !== undefined) {
       if (colon !== undefined) {
         nodes.push(
-          <span key={key++} className="text-electric-cyan">
+          <span key={key++} className="text-sky-300">
             {str}
           </span>,
           colon,
@@ -334,13 +334,13 @@ export default function AutomationSandbox() {
               tabIndex={selected ? 0 : -1}
               onClick={() => selectPreset(p.id)}
               className={`card card-hover flex min-w-0 cursor-pointer flex-col gap-2 p-4 text-left ${
-                selected ? 'border-electric-cyan! bg-electric-cyan/5' : ''
+                selected ? 'border-white/25! bg-white/[0.04]' : ''
               }`}
             >
               <span className="flex min-w-0 items-center gap-3">
                 <span
-                  className={`inline-flex size-9 shrink-0 items-center justify-center rounded-lg ${
-                    selected ? 'bg-electric-cyan text-navy' : 'bg-electric-cyan/10 text-electric-cyan'
+                  className={`inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-white/10 ${
+                    selected ? 'text-white' : 'text-muted-slate'
                   }`}
                 >
                   <Icon size={18} aria-hidden="true" />
@@ -399,7 +399,7 @@ export default function AutomationSandbox() {
               ) : (
                 <Play size={18} aria-hidden="true" />
               )}
-              {isRunning ? 'Running…' : status === 'done' ? 'Run Again' : 'Run Pipeline'}
+              {isRunning ? 'Running…' : status === 'done' ? 'Run again' : 'Run demo'}
             </button>
             <button
               type="button"
@@ -420,8 +420,8 @@ export default function AutomationSandbox() {
         <div className="card space-y-5 p-5 lg:col-span-2">
           <div className="flex items-center justify-between">
             <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
-              <Cpu size={16} className="text-electric-cyan" aria-hidden="true" />
-              Pipeline
+              <Cpu size={16} className="text-muted-slate" aria-hidden="true" />
+              Steps
             </h3>
             <span className="font-mono text-xs text-muted-slate">
               {completedSteps}/{preset.steps.length} steps
@@ -437,7 +437,7 @@ export default function AutomationSandbox() {
             aria-valuenow={Math.round(progress * 100)}
           >
             <div
-              className="h-full w-full origin-left rounded-full bg-electric-cyan"
+              className="h-full w-full origin-left rounded-full bg-white/70"
               style={{ transform: `scaleX(${progress})` }}
             />
           </div>
@@ -449,12 +449,12 @@ export default function AutomationSandbox() {
                 <li
                   key={step.id}
                   aria-current={state === 'running' ? 'step' : undefined}
-                  className={`flex items-start gap-3 rounded-lg border p-3 transition-colors duration-300 ${
+                  className={`flex items-start gap-3 rounded-md border p-3 transition-colors duration-300 ${
                     state === 'running'
-                      ? 'border-electric-cyan/60 bg-electric-cyan/10'
+                      ? 'border-white/20 bg-white/[0.04]'
                       : state === 'done'
-                        ? 'border-emerald-status/30 bg-emerald-status/5'
-                        : 'border-slate-border bg-navy/40'
+                        ? 'border-white/10 bg-white/[0.02]'
+                        : 'border-white/[0.06] bg-navy/40'
                   }`}
                 >
                   <span className="mt-0.5 shrink-0">
@@ -463,12 +463,12 @@ export default function AutomationSandbox() {
                     ) : state === 'running' ? (
                       <Loader2
                         size={18}
-                        className="animate-spin text-electric-cyan"
+                        className="animate-spin text-white"
                         aria-label="Running"
                       />
                     ) : (
                       <span
-                        className="flex size-[18px] items-center justify-center rounded-full border border-slate-border font-mono text-[10px] text-muted-slate"
+                        className="flex size-[18px] items-center justify-center rounded-full border border-white/15 font-mono text-[10px] text-muted-slate"
                         aria-label="Idle"
                       >
                         {i + 1}
@@ -508,7 +508,7 @@ export default function AutomationSandbox() {
               <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-slate">
                 <Gauge size={12} aria-hidden="true" /> {preset.metric.label}
               </p>
-              <p className="mt-1 font-mono text-xl font-semibold tabular-nums text-electric-cyan">
+              <p className="mt-1 font-mono text-xl font-semibold tabular-nums text-white">
                 {liveMetric ?? '—'}
                 {liveMetric !== null && (
                   <span className="ml-0.5 text-xs font-normal text-muted-slate">%</span>
@@ -531,10 +531,10 @@ export default function AutomationSandbox() {
             </span>
             <span
               className={`font-mono text-xs ${
-                isRunning ? 'text-electric-cyan' : status === 'done' ? 'text-emerald-status' : 'text-muted-slate'
+                isRunning ? 'text-white' : status === 'done' ? 'text-emerald-status' : 'text-muted-slate'
               }`}
             >
-              {isRunning ? '● running' : status === 'done' ? '● done' : '○ idle'}
+              {isRunning ? 'running' : status === 'done' ? 'done' : 'idle'}
             </span>
           </div>
 
@@ -547,11 +547,10 @@ export default function AutomationSandbox() {
           >
             {logs.length === 0 ? (
               <p className="text-muted-slate">
-                <span className="text-emerald-status">$</span> awaiting pipeline run
-                <span className="ml-1 inline-block h-3.5 w-1.5 translate-y-0.5 animate-pulse bg-electric-cyan" />
+                <span className="text-white/50">$</span> idle
                 <br />
                 <span className="text-muted-slate/70">
-                  Select a workflow and press “Run Pipeline”.
+                  Pick a pipeline and press “Run demo”.
                 </span>
               </p>
             ) : (
@@ -581,7 +580,7 @@ export default function AutomationSandbox() {
             <button
               type="button"
               onClick={handleCopy}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-slate-border px-3 py-1.5 font-mono text-xs text-white transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-white/15 px-3 py-1.5 font-mono text-xs text-white transition-colors hover:border-white/30"
             >
               {copyState === 'copied' ? (
                 <Check size={14} className="text-emerald-status" aria-hidden="true" />

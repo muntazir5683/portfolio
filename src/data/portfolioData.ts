@@ -198,17 +198,17 @@ export interface DeliverableOption {
 export const profile: Profile = {
   name: 'Syed Muntazir',
   brand: 'SM.',
-  headline: 'Full-Stack Software Engineer & AI Automation Architect',
-  title: 'Full-Stack Software Engineer',
+  headline: 'Software Engineer — Python, FastAPI & React',
+  title: 'Software Engineer',
   location: 'Pakistan',
-  availability: 'Available for Full-Time Roles & AI Projects',
+  availability: 'Open to full-time roles and freelance work',
   summary:
-    'I design and ship fast React web apps, Python & FastAPI backends, AI workflow automations, scrapers and Chrome extensions — from first idea to a tested, deployed product. Open to full-time roles and freelance AI projects.',
+    'I build web apps, data scrapers, browser extensions, and small workflow automations for businesses. Most of my work sits between Python/FastAPI backends and React frontends, with a lot of scraping and glue code in between.',
   roles: [
-    'AI Workflow Automations',
-    'Python & FastAPI Backends',
-    'React & Full-Stack Web Apps',
-    'Browser Extensions & Scrapers',
+    'Python & FastAPI backends',
+    'React web apps',
+    'Scrapers & data pipelines',
+    'Chrome extensions',
   ],
   email: CONTACT_EMAIL.trim(),
   resumeUrl: RESUME_URL.trim() || '#contact',
@@ -247,7 +247,7 @@ export const profile: Profile = {
 
 export const navLinks: NavLink[] = [
   { label: 'Projects', href: '#projects' },
-  { label: 'Automations', href: '#automations' },
+  { label: 'Pipelines', href: '#automations' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -265,24 +265,19 @@ export const skillGroups: SkillGroup[] = [
       'FastAPI',
       'REST APIs',
       'Web Scraping',
-      'AI Workflow Automation',
+      'Workflow automation',
       'Chrome Extensions',
     ],
   },
   {
     id: 'frontend',
-    title: 'Frontend & UI',
-    skills: ['React.js', 'Astro', 'Tailwind CSS', 'Vite', 'HTML5/CSS3'],
+    title: 'Frontend',
+    skills: ['React', 'Astro', 'Tailwind CSS', 'Vite', 'HTML/CSS'],
   },
   {
     id: 'qa-devops',
-    title: 'QA & DevOps',
-    skills: [
-      'Software Quality Assurance (QA) Testing',
-      'Git/GitHub',
-      'Vercel',
-      'Render',
-    ],
+    title: 'QA & Deploy',
+    skills: ['Manual & regression QA', 'Git / GitHub', 'Vercel', 'Render'],
   },
 ];
 
@@ -294,11 +289,11 @@ export const experience: ExperienceItem[] = [
   {
     id: 'fiverr-freelance',
     kind: 'work',
-    role: 'Freelance Full-Stack & AI Developer',
+    role: 'Freelance Software Developer',
     organization: 'Fiverr — @muntazirhamdani',
     period: 'Present',
     description:
-      'Building custom AI web apps, chatbots, and Python automation scripts for global clients.',
+      'Contract work for clients: web apps, scrapers, chatbots, and Python scripts. Most gigs are small-to-medium builds with a clear deliverable and a fixed timeline.',
   },
   {
     id: 'capital-smart-city',
@@ -307,7 +302,7 @@ export const experience: ExperienceItem[] = [
     organization: 'Capital Smart City',
     period: 'Through Oct 2026',
     description:
-      'Streamlined administrative workflows and digital tracking systems.',
+      'Day-to-day ops and HR paperwork, plus a few internal tracking sheets and process fixes that reduced manual follow-up.',
   },
   {
     id: 'moph-qatar',
@@ -316,14 +311,15 @@ export const experience: ExperienceItem[] = [
     organization: 'Ministry of Public Health, Qatar',
     location: 'Qatar',
     description:
-      'High-volume public service operations and cross-cultural client communication.',
+      'Handled a high volume of public inquiries. Useful practice for clear communication under pressure.',
   },
   {
     id: 'app-in-snap',
     kind: 'work',
     role: 'Software Engineering Intern',
     organization: 'App in Snap',
-    description: 'Frontend/backend feature development and QA testing.',
+    description:
+      'Shipped small frontend and backend features, wrote test cases, and filed/regression-tested bugs before releases.',
   },
 ];
 
@@ -334,7 +330,7 @@ export const education: ExperienceItem[] = [
     role: 'BS in Software Engineering',
     organization: 'COMSATS University Islamabad, Wah Campus',
     location: 'Wah Cantt, Pakistan',
-    description: 'Bachelor of Science in Software Engineering.',
+    description: 'Coursework in software design, databases, and web development.',
   },
 ];
 
@@ -355,22 +351,22 @@ export const projects: Project[] = [
     title: 'PakGovJobs',
     categories: ['Full-Stack Web', 'AI & Automation'],
     description:
-      'Automated all-Pakistan government job aggregator portal separating active vacancies from expired listings across federal, provincial, armed forces, and medical departments.',
+      'Aggregator for Pakistani government jobs. Scrapes several portals, normalizes dates, and splits active listings from expired ones.',
     summary:
-      'Stops job seekers from wading through dozens of portals and expired ads by showing only what is still open.',
+      'One feed of government jobs with expired listings filtered out, instead of hopping between half a dozen portals.',
     stack: ['Python', 'FastAPI', 'Web Scraping', 'React'],
     featured: true,
     githubUrl: 'https://github.com/muntazir5683/pakgovtjobs',
     caseStudy: {
       problem:
-        'Government vacancies in Pakistan are spread across many federal, provincial, armed forces and medical portals, each with its own format. Expired ads stay online, so applicants waste time on jobs they can no longer apply for.',
+        'Job ads live on separate federal, provincial, armed forces, and medical sites. Formats differ, closing dates are inconsistent, and expired posts often stay visible.',
       solution:
-        'A Python/FastAPI scraping pipeline fetches listings from multiple portals, normalizes titles, departments and closing dates, then classifies every job as active or expired. The cleaned data is served through a REST API to a React frontend that separates active vacancies from expired listings by sector.',
+        'A Python scraper pulls each site on a schedule. Dates get normalized to ISO; anything past today is marked expired. FastAPI serves the cleaned list; React shows active jobs grouped by sector. The awkward part was date parsing — some portals use DD/MM/YYYY, others write “last date” as free text — so failures are logged instead of silently dropped.',
       highlights: [
-        'One place to browse federal, provincial, armed forces and medical jobs',
-        'Automatic active vs. expired classification from parsed closing dates',
-        'Normalized, structured data exposed through a REST API',
-        'Automated aggregation instead of manual job-board curation',
+        'Multi-portal scrape with retries on flaky endpoints',
+        'Active vs expired based on parsed closing dates',
+        'Dedupes listings that appear on more than one site',
+        'REST API + React UI for browsing by sector',
       ],
     },
   },
@@ -379,90 +375,90 @@ export const projects: Project[] = [
     title: 'SellerShield',
     categories: ['AI & Automation', 'Full-Stack Web'],
     description:
-      'Online seller credibility and scam risk evaluation platform for Pakistani websites, Instagram, Facebook, TikTok, and YouTube stores.',
+      'Checks a store URL (web or social) against basic trust signals and returns a risk score with the reasons behind it.',
     summary:
-      'Gives online shoppers a quick, evidence-based risk score before they pay an unknown seller.',
+      'Paste a store link, get a risk score and the signals that drove it — useful before you pay an unknown seller.',
     stack: ['React', 'Vite', 'Tailwind CSS', 'Python FastAPI'],
     featured: true,
     caseStudy: {
       problem:
-        'Buying from Instagram, Facebook, TikTok, YouTube and small web stores is common in Pakistan, but there is no easy way to judge whether a seller is trustworthy. Scams spread because buyers have to decide on gut feeling.',
+        'A lot of buying in Pakistan happens through Instagram or small websites. Buyers mostly guess whether a seller is legit.',
       solution:
-        'A React + Vite + Tailwind frontend sends a store URL to a Python FastAPI backend, which evaluates trust signals such as domain age, contact and business details, and social credibility. The backend combines these into a single risk score with the signals that drove it.',
+        'Frontend submits a URL to FastAPI. The backend looks up domain age, contact details, and rough social signals, then weights them into a score. I kept the scoring rules explicit so the UI can show why a store looks risky instead of hiding it behind a black box.',
       highlights: [
-        'Covers websites plus Instagram, Facebook, TikTok and YouTube stores',
-        'Clear risk score backed by visible trust signals',
-        'Built around the Pakistani online-selling landscape',
-        'Responsive UI for checking a seller from a phone',
+        'Works with websites and common social store links',
+        'Score plus the contributing signals, not just a label',
+        'Rules tuned for how local sellers actually present themselves',
+        'Mobile-friendly so you can check a link on the go',
       ],
     },
   },
   {
     id: 'auto-tab-refresher',
-    title: 'Auto Tab Refresher & Smart Page Monitor',
+    title: 'Auto Tab Refresher',
     categories: ['Browser & Utility Tools'],
     description:
-      'Chrome extension that refreshes tabs every 2 minutes, detects and highlights new DOM/notification changes, and simulates natural scroll/mouse activity.',
+      'Chrome extension that reloads selected tabs on a timer, highlights DOM changes, and nudges idle pages so sessions do not drop.',
     summary:
-      'Watches a page for you: reloads on a timer and highlights exactly what changed.',
+      'Keeps a tab fresh every two minutes and highlights what changed so you do not miss an update.',
     stack: ['JavaScript', 'Chrome Extension APIs', 'DOM Mutation'],
     featured: true,
     caseStudy: {
       problem:
-        'Anyone waiting on a time-sensitive page, such as new listings, notifications or status updates, ends up refreshing tabs by hand and still misses what changed. Idle pages can also time out.',
+        'Waiting on listing pages or dashboards means constant manual refresh. Easy to miss a change, and some sites time out if the tab goes idle.',
       solution:
-        'A Chrome extension uses extension APIs to reload chosen tabs every 2 minutes. A content script observes DOM mutations to detect new content or notification changes and highlights them on the page, while light, natural-looking scroll and mouse activity keeps sessions from going idle.',
+        'Background script reloads chosen tabs on an interval. A content script uses MutationObserver to mark new nodes. Optional light scroll/mouse activity keeps some sites from signing you out. Kept the permissions minimal — tabs + scripting only for pages the user opts into.',
       highlights: [
-        'Automatic tab refresh every 2 minutes',
-        'Detects and highlights new DOM and notification changes',
-        'Simulated natural scroll and mouse activity',
-        'Lightweight, runs entirely in the browser',
+        'Configurable refresh interval (default 2 minutes)',
+        'Highlights new DOM content after each reload',
+        'Optional keep-alive activity for sticky sessions',
+        'No server; everything runs in the browser',
       ],
     },
   },
   {
     id: 'image-to-pdf',
-    title: 'Zero-Upload Image to PDF Converter',
+    title: 'Image → PDF (client-side)',
     categories: ['Browser & Utility Tools'],
     description:
-      'Login-free, mobile- and desktop-compatible client-side tool preserving exact image selection sequence and original resolution.',
+      'Browser tool that builds a PDF from selected images without uploading anything. Order and resolution stay as the user chose them.',
     summary:
-      'Turns photos into a PDF without uploading anything, keeping your order and quality.',
+      'Convert images to PDF in the browser — no account, no upload, pages stay in the order you picked.',
     stack: ['JavaScript', 'Client-Side PDF Generation', 'Responsive UI'],
     featured: true,
     caseStudy: {
       problem:
-        'Most online image-to-PDF converters require sign-ups or uploads, which is a privacy risk for documents like IDs and receipts. Many also shuffle the page order or recompress images.',
+        'Online converters ask for uploads or logins. That is a bad fit for IDs and receipts, and some tools reorder or crush image quality.',
       solution:
-        'Everything happens in the browser: images are read locally and assembled into a PDF with client-side generation, so no file ever leaves the device. Pages follow the exact order the user selected and images keep their original resolution. The responsive UI works on both mobile and desktop.',
+        'FileReader + a client-side PDF library. Images never leave the device. Page order follows the selection list; each image keeps its resolution. Layout works on phone and desktop without a separate app.',
       highlights: [
-        'Zero upload: files never leave the device',
-        'No login or account required',
-        'Preserves exact selection order and original resolution',
-        'Works on mobile and desktop browsers',
+        'No upload path — files stay local',
+        'No login required',
+        'Selection order becomes page order',
+        'Same flow on mobile and desktop',
       ],
     },
   },
   {
     id: 'urdu-poster-studio',
-    title: 'Web-Based Urdu Poster & Event Design Studio',
+    title: 'Urdu Poster Studio',
     categories: ['Full-Stack Web'],
     description:
-      'Browser-based CorelDRAW-style graphic design editor tailored for Urdu typography and formal event posters.',
+      'In-browser canvas editor for Urdu event posters — text, layout, and export without installing desktop design software.',
     summary:
-      'A browser-based design editor that treats Urdu typography as a first-class citizen.',
+      'A small canvas editor aimed at Urdu typography and formal event posters, runnable in the browser.',
     stack: ['React', 'HTML5 Canvas', 'Tailwind CSS'],
     featured: true,
     caseStudy: {
       problem:
-        'Designing formal Urdu posters and event material usually means heavy desktop software like CorelDRAW, or generic web tools that handle Urdu text poorly. Small organizers need something quick that just works.',
+        'Formal Urdu posters usually need CorelDRAW or similar. Lightweight web editors tend to mishandle right-to-left text and font shaping.',
       solution:
-        'A React and HTML5 Canvas editor with a CorelDRAW-style workflow, tailored for Urdu typography and formal event poster layouts, styled with Tailwind CSS. It runs entirely in the browser with nothing to install.',
+        'React drives an HTML5 canvas layer with tools for text blocks, shapes, and export. Focused on the poster workflows organizers actually use rather than becoming a full design suite. Fonts and RTL layout were the main engineering work.',
       highlights: [
-        'CorelDRAW-style editing experience in the browser',
-        'Built around Urdu typography and formal event posters',
-        'Canvas-based rendering for precise layout control',
-        'No installation required',
+        'Canvas editing without a desktop install',
+        'Urdu / RTL text treated as a first-class case',
+        'Poster-oriented layout tools, not a general DTP clone',
+        'Exports from the browser',
       ],
     },
   },
@@ -475,10 +471,10 @@ export const projects: Project[] = [
 export const workflowPresets: WorkflowPreset[] = [
   {
     id: 'pakgovjobs-scraper',
-    title: 'PakGovJobs Scraper & Expiry Filter',
-    tagline: 'Multi-portal job fetching → active vs. expired',
+    title: 'PakGovJobs scrape pipeline',
+    tagline: 'Fetch → parse dates → filter expired → JSON',
     description:
-      'Fetches listings from multiple government portals, parses closing dates, classifies jobs as active or expired, and emits clean JSON.',
+      'Demo of the job aggregator pipeline: hit a few portals, normalize closing dates, mark expired rows, return structured JSON.',
     icon: 'FileSearch',
     input: { label: 'Portals', value: 'fpsc.gov.pk, punjab-jobs.gov.pk, paf.gov.pk' },
     stack: ['Python', 'FastAPI', 'BeautifulSoup', 'httpx', 'Pydantic'],
@@ -555,14 +551,14 @@ export const workflowPresets: WorkflowPreset[] = [
   },
   {
     id: 'sellershield-analyzer',
-    title: 'SellerShield AI Scam Risk Analyzer',
-    tagline: 'Store URL → trust signals → risk score',
+    title: 'SellerShield risk check',
+    tagline: 'URL → trust signals → score',
     description:
-      'Evaluates an e-commerce or social store across trust signals, domain age, and social credibility metrics to produce a scam risk score.',
+      'Demo of the seller check: resolve the store, look at domain age and contact signals, weight them into a risk score.',
     icon: 'ShieldCheck',
     input: { label: 'Store URL', value: 'https://instagram.com/example_fashion_store' },
-    stack: ['React', 'Vite', 'Python', 'FastAPI', 'LLM Scoring'],
-    metric: { label: 'Model confidence', value: 91.4 },
+    stack: ['React', 'Vite', 'Python', 'FastAPI'],
+    metric: { label: 'Signal coverage', value: 91.4 },
     steps: [
       {
         id: 'resolve',
@@ -598,12 +594,12 @@ export const workflowPresets: WorkflowPreset[] = [
       },
       {
         id: 'score',
-        label: 'AI risk scoring',
-        description: 'Weighted model produces final verdict',
+        label: 'Score signals',
+        description: 'Weighted rules produce the final score',
         latencyMs: 310,
         logs: [
-          { level: 'info', message: 'Weighting 14 trust signals' },
-          { level: 'success', message: 'Risk score: 72/100 → HIGH RISK' },
+          { level: 'info', message: 'Applying weights to 14 signals' },
+          { level: 'success', message: 'Risk score: 72/100 (high)' },
         ],
       },
     ],
@@ -622,16 +618,16 @@ export const workflowPresets: WorkflowPreset[] = [
   },
   {
     id: 'whatsapp-real-estate',
-    title: 'WhatsApp Real Estate AI Router',
-    tagline: 'Lead intent → property match → auto reply',
+    title: 'WhatsApp lead router',
+    tagline: 'Inbound message → match inventory → reply',
     description:
-      'Classifies incoming WhatsApp lead intent, matches properties from inventory, and generates an automated CRM entry and reply.',
+      'Demo of a real-estate lead flow: classify the message, pick matching listings, send a reply and open a CRM row.',
     icon: 'MessageSquare',
     input: {
       label: 'Incoming message',
       value: '"Hi, looking for a 5 marla house near Capital Smart City, budget around 1.5 crore"',
     },
-    stack: ['Python', 'FastAPI', 'WhatsApp Business API', 'LLM Intent Routing', 'CRM Webhooks'],
+    stack: ['Python', 'FastAPI', 'WhatsApp Business API', 'CRM webhook'],
     metric: { label: 'Intent confidence', value: 96 },
     steps: [
       {
@@ -647,11 +643,11 @@ export const workflowPresets: WorkflowPreset[] = [
       {
         id: 'intent',
         label: 'Classify intent',
-        description: 'LLM extracts intent and entities',
+        description: 'Extract intent and entities from the message',
         latencyMs: 520,
         logs: [
-          { level: 'info', message: 'Intent: buy_property (confidence 0.96)' },
-          { level: 'success', message: 'Entities: type=house, size=5 marla, area=Capital Smart City, budget=15000000 PKR' },
+          { level: 'info', message: 'Intent: buy_property (0.96)' },
+          { level: 'success', message: 'Entities: house, 5 marla, Capital Smart City, budget 1.5 crore' },
         ],
       },
       {
@@ -672,7 +668,7 @@ export const workflowPresets: WorkflowPreset[] = [
         logs: [
           { level: 'info', message: 'Reply generated in Roman Urdu/English (lead language)' },
           { level: 'success', message: 'WhatsApp reply sent with 3 property cards' },
-          { level: 'success', message: 'CRM lead created → assigned to agent queue (priority: hot)' },
+          { level: 'success', message: 'CRM lead created and queued for an agent' },
         ],
       },
     ],
@@ -691,84 +687,84 @@ export const workflowPresets: WorkflowPreset[] = [
         { id: 'P-1120', title: '5 Marla House, Park View', price_pkr: 14200000, score: 0.79 },
       ],
       actions: ['whatsapp_reply_sent', 'crm_lead_created', 'agent_notified'],
-      priority: 'hot',
+      priority: 'high',
     },
   },
 ];
 
 /* ================================================================== */
-/* AI Portfolio Assistant knowledge base (SRDS §4.5)                  */
+/* Ask-about-my-work chat knowledge                                   */
 /* ================================================================== */
 
 export const assistantKnowledge: AssistantKnowledge = {
-  name: 'Muntazir AI',
+  name: 'Ask About My Work',
   greeting:
-    "Hi! I'm Syed Muntazir's portfolio assistant. Ask me about his projects, tech stack, or how to start a project with him — or tap a suggestion below.",
+    'Ask about projects, stack, or how to get in touch. Short answers — use the links if you want the full page.',
   fallback:
-    "I don't have a specific answer for that yet, but you can reach Muntazir directly via the contact section, Fiverr (@muntazirhamdani) or GitHub (muntazir5683). Try one of the suggested questions too!",
+    "I don't have a canned answer for that. Use [[#contact|Contact]], email syedmuntazir.pwh@gmail.com, Fiverr (@muntazirhamdani), or GitHub (muntazir5683).",
   intents: [
     {
       id: 'why-hire',
-      chip: 'Why hire Muntazir for AI automation?',
-      keywords: ['why hire', 'hire', 'automation', 'ai automation', 'workflow', 'benefit', 'strength'],
+      chip: 'What kind of work does he do?',
+      keywords: ['why hire', 'hire', 'automation', 'ai automation', 'workflow', 'benefit', 'strength', 'kind of work', 'what does'],
       answer:
-        "Muntazir pairs full-stack engineering with practical AI automation. He builds end-to-end pipelines — scraping, data cleaning, classification, and API delivery — in Python & FastAPI, then ships them behind fast React UIs. Real examples: PakGovJobs and SellerShield. His QA background means the automations are tested and reliable, not just demos.\n\nTry the live demos in [[#automations|Automation Sandbox]], or browse the full case studies in [[#projects|Projects]].",
-      followUps: ['Tell me about SellerShield & PakGovJobs', 'How can I start a project with him?'],
+        'Mostly Python/FastAPI backends, React UIs, scrapers, and small automations that glue systems together. PakGovJobs and SellerShield are the clearest examples.\n\n[[#automations|Pipeline demos]] · [[#projects|Projects]]',
+      followUps: ['SellerShield & PakGovJobs?', 'How do I reach him?'],
       sections: ['#automations', '#projects'],
     },
     {
       id: 'projects',
-      chip: 'Tell me about SellerShield & PakGovJobs',
+      chip: 'SellerShield & PakGovJobs?',
       keywords: ['sellershield', 'pakgovjobs', 'pakgov', 'project', 'projects', 'portfolio', 'work', 'built'],
       answer:
-        'PakGovJobs is an automated all-Pakistan government job aggregator that separates active vacancies from expired listings across federal, provincial, armed forces and medical departments (Python, FastAPI, web scraping, React). SellerShield is a seller credibility and scam-risk platform for Pakistani websites and Instagram, Facebook, TikTok and YouTube stores (React, Vite, Tailwind CSS, FastAPI).\n\nOpen the [[#projects|Projects]] case studies, or run simulated pipelines in the [[#automations|Automation Sandbox]].',
-      followUps: ['What is his core tech stack?', 'How can I start a project with him?'],
+        'PakGovJobs scrapes several government job sites, normalizes closing dates, and filters expired ads (Python, FastAPI, React). SellerShield takes a store URL and returns a risk score with the signals behind it (React, FastAPI).\n\n[[#projects|Case studies]] · [[#automations|Run the demos]]',
+      followUps: ['What is his stack?', 'How do I reach him?'],
       sections: ['#projects', '#automations'],
     },
     {
       id: 'tech-stack',
-      chip: 'What is his core tech stack?',
+      chip: 'What is his stack?',
       keywords: ['tech', 'stack', 'skills', 'technology', 'technologies', 'python', 'react', 'fastapi', 'tools', 'language'],
       answer:
-        'Backend & automation: Python, FastAPI, REST APIs, web scraping, AI agent workflows and Chrome extensions. Frontend: React.js, Astro, Tailwind CSS, Vite, HTML5/CSS3. QA & DevOps: software QA testing, Git/GitHub, and deployments on Vercel and Render.\n\nSee the full breakdown under [[#experience|Experience & Skills]].',
-      followUps: ['Tell me about SellerShield & PakGovJobs', 'How can I start a project with him?'],
+        'Day to day: Python, FastAPI, React, Astro, Tailwind, scraping, Chrome extensions. Deployments on Vercel and Render. QA experience from internship and freelance handoffs.\n\n[[#experience|Skills & experience]]',
+      followUps: ['SellerShield & PakGovJobs?', 'How do I reach him?'],
       sections: ['#experience'],
     },
     {
       id: 'start-project',
-      chip: 'How can I start a project with him?',
-      keywords: ['start', 'contact', 'project with', 'work together', 'quote', 'price', 'pricing', 'cost', 'estimate', 'budget', 'fiverr', 'email'],
+      chip: 'How do I reach him?',
+      keywords: ['start', 'contact', 'project with', 'work together', 'quote', 'price', 'pricing', 'cost', 'estimate', 'budget', 'fiverr', 'email', 'reach'],
       answer:
-        "Easiest path: use the Smart Project Estimator in [[#contact|Contact]] to scope your project (type, timeline, features) and copy the generated brief. Then send it via email, message Muntazir on Fiverr (@muntazirhamdani), or reach out on GitHub (muntazir5683). He's also open to full-time roles.",
-      followUps: ['What is his core tech stack?'],
+        'Fill the [[#contact|inquiry form]] and copy or email the brief, or message on Fiverr (@muntazirhamdani) / GitHub (muntazir5683). Open to full-time roles too.',
+      followUps: ['What is his stack?'],
       sections: ['#contact'],
     },
     {
       id: 'experience',
       keywords: ['experience', 'background', 'career', 'intern', 'job history', 'worked'],
       answer:
-        "Muntazir works as a freelance full-stack & AI developer on Fiverr, building custom AI web apps, chatbots and Python automation for global clients. Earlier roles include Admin & HR Operations at Capital Smart City, Customer Service at the Ministry of Public Health, Qatar, and a Software Engineering internship at App in Snap (frontend/backend features and QA).\n\nFull timeline: [[#experience|Experience & Education]].",
+        'Freelance on Fiverr now. Before that: Admin/HR at Capital Smart City, customer service at MoPH Qatar, and a software intern role at App in Snap.\n\n[[#experience|Timeline]]',
       sections: ['#experience'],
     },
     {
       id: 'education',
       keywords: ['education', 'degree', 'university', 'study', 'studied', 'comsats', 'bs '],
       answer:
-        'Muntazir holds a BS in Software Engineering from COMSATS University Islamabad, Wah Campus. More under [[#experience|Experience & Education]].',
+        'BS Software Engineering, COMSATS University Islamabad (Wah Campus). [[#experience|Details]]',
       sections: ['#experience'],
     },
     {
       id: 'availability',
       keywords: ['available', 'availability', 'full-time', 'full time', 'freelance', 'open to', 'job'],
       answer:
-        "Yes — Muntazir is currently available for full-time roles and AI/automation projects, including freelance and contract work. Scope a role or project in [[#contact|Contact]].",
+        'Yes — full-time or freelance. Use [[#contact|Contact]] to send a short brief.',
       sections: ['#contact'],
     },
     {
       id: 'extensions-tools',
       keywords: ['chrome', 'extension', 'scraper', 'scraping', 'pdf', 'urdu', 'poster', 'tool', 'tools', 'utility'],
       answer:
-        'Beyond web apps, Muntazir builds browser and utility tools: an Auto Tab Refresher & Smart Page Monitor Chrome extension, a zero-upload Image to PDF converter that runs fully client-side, and a web-based Urdu poster & event design studio built on HTML5 Canvas.\n\nDetails in [[#projects|Projects]].',
+        'Also shipped a tab refresher Chrome extension, a client-side image→PDF tool, and a canvas-based Urdu poster editor. [[#projects|Projects]]',
       sections: ['#projects'],
     },
   ],
@@ -781,43 +777,43 @@ export const assistantKnowledge: AssistantKnowledge = {
 export const engagementTypes: EngagementType[] = [
   {
     id: 'full-time',
-    label: 'Full-Time / Contract Role',
-    description: 'Join your team as a full-stack / automation engineer.',
+    label: 'Full-time / contract role',
+    description: 'Join a team as a software engineer.',
   },
   {
     id: 'ai-automation',
-    label: 'AI Automation / Agent',
-    description: 'Workflow automations, scrapers, chatbots and AI agents.',
+    label: 'Automation / bot',
+    description: 'Scrapers, chatbots, scheduled jobs, glue code.',
   },
   {
     id: 'full-stack',
-    label: 'Full-Stack Web App',
-    description: 'React frontend with Python/FastAPI backend.',
+    label: 'Web app',
+    description: 'React UI with a Python/FastAPI backend.',
   },
   {
     id: 'chrome-extension',
-    label: 'Chrome Extension / Scraper',
-    description: 'Custom browser extensions, scrapers and page monitors.',
+    label: 'Chrome extension / scraper',
+    description: 'Browser extensions and page monitors.',
   },
 ];
 
 export const timelineOptions: TimelineOption[] = [
   {
     id: 'urgent',
-    label: 'Urgent (1–2 Weeks)',
-    description: 'Tight deadline — focused MVP delivery.',
+    label: '1–2 weeks',
+    description: 'Tight deadline, small scope.',
     weeks: [1, 2],
   },
   {
     id: 'standard',
-    label: 'Standard (3–5 Weeks)',
-    description: 'Balanced discovery, build and polish.',
+    label: '3–5 weeks',
+    description: 'Normal build with a bit of polish.',
     weeks: [3, 5],
   },
   {
     id: 'flexible',
-    label: 'Flexible / Long-Term',
-    description: 'Ongoing collaboration or phased roadmap.',
+    label: 'Flexible / longer',
+    description: 'Phased work or an ongoing retainer.',
     weeks: [6, 12],
   },
 ];

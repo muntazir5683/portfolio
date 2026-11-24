@@ -109,8 +109,8 @@ function CategoryTags({ categories }: { categories: ProjectCategory[] }) {
             key={category}
             className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-[11px] ${
               i === 0
-                ? 'bg-electric-cyan/10 text-electric-cyan'
-                : 'border border-slate-border text-muted-slate'
+                ? 'border border-white/15 text-white'
+                : 'border border-white/10 text-muted-slate'
             }`}
           >
             <Icon size={12} aria-hidden="true" />
@@ -297,7 +297,7 @@ function ModalSection({
 }) {
   return (
     <section>
-      <h4 className="mb-2.5 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-electric-cyan">
+      <h4 className="mb-2.5 flex items-center gap-2 text-xs font-medium tracking-wide text-muted-slate">
         <Icon size={14} aria-hidden="true" />
         {title}
       </h4>
@@ -369,14 +369,14 @@ export default function ProjectShowcase() {
               onClick={() => selectFilter(name)}
               className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                 active
-                  ? 'border-electric-cyan bg-electric-cyan text-navy'
-                  : 'border-slate-border bg-slate-card text-muted-slate hover:border-electric-cyan/60 hover:text-white'
+                  ? 'border-transparent bg-electric-cyan text-navy'
+                  : 'border-white/10 bg-slate-card text-muted-slate hover:border-white/25 hover:text-white'
               }`}
             >
               {name}
               <span
                 className={`inline-flex min-w-5 items-center justify-center rounded-full px-1.5 font-mono text-[11px] leading-5 ${
-                  active ? 'bg-navy/20 text-navy' : 'bg-navy text-electric-cyan'
+                  active ? 'bg-navy/20 text-navy' : 'bg-navy text-muted-slate'
                 }`}
               >
                 {count}
@@ -405,7 +405,7 @@ export default function ProjectShowcase() {
             <div className="flex items-start justify-between gap-3">
               <CategoryTags categories={project.categories} />
               {project.featured && (
-                <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-emerald-status/30 bg-emerald-status/10 px-2 py-0.5 font-mono text-[11px] text-emerald-status">
+                <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate">
                   <Star size={11} aria-hidden="true" /> Featured
                 </span>
               )}

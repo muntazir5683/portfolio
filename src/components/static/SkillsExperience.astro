@@ -13,18 +13,16 @@ const groupIcons = {
   'qa-devops': TestTubes,
 } satisfies Record<SkillGroupId, unknown>;
 
-// Single chronological-style list: work history first, then education.
 const timeline = [...experience, ...education];
 ---
 
-<section id="experience" class="section-padding border-t border-[#233554]">
+<section id="experience" class="section-padding border-t border-white/[0.08]">
   <div class="container-page">
-    <!-- Part 1: Technical arsenal -->
     <header class="max-w-2xl">
-      <p class="font-mono text-sm text-electric-cyan">// 01. technical arsenal</p>
-      <h2 class="section-heading mt-2">Skills & Expertise</h2>
+      <p class="section-kicker">Skills</p>
+      <h2 class="section-heading mt-2">Tools I use</h2>
       <p class="mt-3 text-muted-slate">
-        The tools I use to take products from prototype to production.
+        Stack I reach for when building and shipping software.
       </p>
     </header>
 
@@ -35,10 +33,10 @@ const timeline = [...experience, ...education];
           return (
             <article class="card card-hover p-6">
               <div class="flex items-center gap-3">
-                <span class="inline-flex size-10 items-center justify-center rounded-lg bg-electric-cyan/10 text-electric-cyan">
-                  <Icon size={20} aria-hidden="true" />
+                <span class="inline-flex size-9 items-center justify-center rounded-md border border-white/10 text-muted-slate">
+                  <Icon size={18} aria-hidden="true" />
                 </span>
-                <h3 class="text-lg font-semibold text-white">{group.title}</h3>
+                <h3 class="text-base font-semibold text-white">{group.title}</h3>
               </div>
               <ul class="mt-5 flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
@@ -51,20 +49,19 @@ const timeline = [...experience, ...education];
       }
     </div>
 
-    <!-- Part 2: Career & education timeline -->
     <header class="mt-20 max-w-2xl">
-      <p class="font-mono text-sm text-electric-cyan">// 02. career &amp; education</p>
-      <h2 class="section-heading mt-2">Experience & Education</h2>
+      <p class="section-kicker">Background</p>
+      <h2 class="section-heading mt-2">Experience &amp; education</h2>
     </header>
 
-    <ol class="relative mt-10 ml-4 border-l border-[#233554] sm:ml-5">
+    <ol class="relative mt-10 ml-4 border-l border-white/[0.08] sm:ml-5">
       {
         timeline.map((item) => {
           const Icon = item.kind === 'education' ? GraduationCap : Briefcase;
           const meta = [item.period, item.location].filter(Boolean);
           return (
             <li class="relative pb-10 pl-8 last:pb-0 sm:pl-10">
-              <span class="absolute -left-4 top-0 inline-flex size-8 items-center justify-center rounded-full border border-[#233554] bg-slate-card text-electric-cyan">
+              <span class="absolute -left-4 top-0 inline-flex size-8 items-center justify-center rounded-full border border-white/10 bg-slate-card text-muted-slate">
                 <Icon size={16} aria-hidden="true" />
               </span>
               <div class="card p-5">
@@ -72,7 +69,7 @@ const timeline = [...experience, ...education];
                   <h3 class="text-lg font-semibold text-white">{item.role}</h3>
                   {item.kind === 'education' && <span class="tag-mono">Education</span>}
                 </div>
-                <p class="mt-1 font-medium text-electric-cyan">{item.organization}</p>
+                <p class="mt-1 text-sm font-medium text-white/80">{item.organization}</p>
                 {meta.length > 0 && (
                   <p class="mt-1 flex items-center gap-1.5 font-mono text-xs text-muted-slate">
                     {item.location && !item.period && <MapPin size={12} aria-hidden="true" />}

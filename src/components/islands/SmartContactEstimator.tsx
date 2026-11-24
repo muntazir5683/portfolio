@@ -216,7 +216,7 @@ function buildBrief({
     `Contact: ${contact.trim() || '(email / WhatsApp)'}`,
     notes.trim() ? `\nNotes:\n${notes.trim()}` : '',
     '',
-    '— Sent via the portfolio Smart Project Estimator',
+    '— Sent from syedmuntazir portfolio contact form',
   ]
     .filter((line, i, arr) => !(line === '' && arr[i - 1] === ''))
     .join('\n')
@@ -229,9 +229,9 @@ const fieldClass =
 const pillBase =
   'inline-flex cursor-pointer items-center gap-2 rounded-full border px-3.5 py-2 text-left text-sm font-medium transition-colors';
 
-const pillActive = 'border-electric-cyan bg-electric-cyan text-navy';
+const pillActive = 'border-transparent bg-electric-cyan text-navy';
 const pillIdle =
-  'border-slate-border bg-slate-card text-muted-slate hover:border-electric-cyan/60 hover:text-white';
+  'border-white/10 bg-slate-card text-muted-slate hover:border-white/25 hover:text-white';
 
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
@@ -297,8 +297,8 @@ export default function SmartContactEstimator() {
       <div className="space-y-7 lg:col-span-3">
         {/* Engagement */}
         <fieldset>
-          <legend className="mb-3 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-electric-cyan">
-            <Briefcase size={14} aria-hidden="true" /> Engagement type
+          <legend className="mb-3 flex items-center gap-2 text-xs font-medium tracking-wide text-muted-slate">
+            <Briefcase size={14} aria-hidden="true" /> What do you need?
           </legend>
           <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Engagement type">
             {engagementTypes.map((type) => {
@@ -311,7 +311,7 @@ export default function SmartContactEstimator() {
                   aria-checked={active}
                   onClick={() => setEngagementId(type.id)}
                   className={`card cursor-pointer p-4 text-left ${
-                    active ? 'border-electric-cyan! bg-electric-cyan/5' : 'card-hover'
+                    active ? 'border-white/25! bg-white/[0.04]' : 'card-hover'
                   }`}
                 >
                   <span className="block text-sm font-semibold text-white">{type.label}</span>
@@ -324,8 +324,8 @@ export default function SmartContactEstimator() {
 
         {/* Timeline */}
         <fieldset>
-          <legend className="mb-3 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-electric-cyan">
-            <Clock size={14} aria-hidden="true" /> Estimated timeline
+          <legend className="mb-3 flex items-center gap-2 text-xs font-medium tracking-wide text-muted-slate">
+            <Clock size={14} aria-hidden="true" /> Timeline
           </legend>
           <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Estimated timeline">
             {timelineOptions.map((opt) => {
@@ -348,8 +348,8 @@ export default function SmartContactEstimator() {
 
         {/* Deliverables */}
         <fieldset>
-          <legend className="mb-3 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-electric-cyan">
-            <Sparkles size={14} aria-hidden="true" /> Key deliverables / features
+          <legend className="mb-3 flex items-center gap-2 text-xs font-medium tracking-wide text-muted-slate">
+            <Sparkles size={14} aria-hidden="true" /> Features needed
           </legend>
           <div className="flex flex-wrap gap-2">
             {deliverableOptions.map((opt) => {
@@ -372,8 +372,8 @@ export default function SmartContactEstimator() {
 
         {/* Contact */}
         <fieldset className="space-y-3">
-          <legend className="mb-1 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-electric-cyan">
-            <Mail size={14} aria-hidden="true" /> Contact info & notes
+          <legend className="mb-1 flex items-center gap-2 text-xs font-medium tracking-wide text-muted-slate">
+            <Mail size={14} aria-hidden="true" /> Your details
           </legend>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block text-sm text-muted-slate">
@@ -419,17 +419,17 @@ export default function SmartContactEstimator() {
       <div className="space-y-6 lg:col-span-2">
         <div className="card p-5 sm:p-6">
           <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
-            <Map size={16} className="text-electric-cyan" aria-hidden="true" />
-            Estimated scope & delivery roadmap
+            <Map size={16} className="text-muted-slate" aria-hidden="true" />
+            Scope summary
           </h3>
           <p className="mt-2 text-xs text-muted-slate">
-            Live preview based on your selections — not a binding quote.
+            Rough plan from your selections — not a formal quote.
           </p>
 
-          <dl className="mt-4 space-y-2 border-b border-slate-border pb-4 font-mono text-xs">
+          <dl className="mt-4 space-y-2 border-b border-white/[0.08] pb-4 text-xs">
             <div className="flex justify-between gap-3">
-              <dt className="text-muted-slate">Engagement</dt>
-              <dd className="text-right text-electric-cyan">{engagement.label}</dd>
+              <dt className="text-muted-slate">Type</dt>
+              <dd className="text-right text-white">{engagement.label}</dd>
             </div>
             <div className="flex justify-between gap-3">
               <dt className="text-muted-slate">Timeline</dt>
@@ -444,7 +444,7 @@ export default function SmartContactEstimator() {
           <ol className="mt-4 space-y-3">
             {roadmap.map((phase, i) => (
               <li key={phase.title} className="flex gap-3">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-electric-cyan/40 bg-electric-cyan/10 font-mono text-[11px] text-electric-cyan">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-white/15 font-mono text-[11px] text-muted-slate">
                   {i + 1}
                 </span>
                 <span className="min-w-0">
@@ -463,10 +463,10 @@ export default function SmartContactEstimator() {
 
         <div className="overflow-hidden rounded-xl border border-slate-border bg-[#020C1B]">
           <div className="flex items-center justify-between gap-3 border-b border-slate-border px-4 py-2.5">
-            <span className="flex items-center gap-2 font-mono text-xs text-emerald-status">
-              <FileText size={14} aria-hidden="true" /> inquiry-brief.txt
+            <span className="flex items-center gap-2 text-xs text-muted-slate">
+              <FileText size={14} aria-hidden="true" /> Brief preview
             </span>
-            <span className="font-mono text-[11px] text-muted-slate">ready to send</span>
+            <span className="text-[11px] text-muted-slate">editable after copy</span>
           </div>
           <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-words p-4 font-mono text-[12px] leading-relaxed text-slate-300">
             {brief}
@@ -485,14 +485,14 @@ export default function SmartContactEstimator() {
                 ? 'Copied!'
                 : copyState === 'failed'
                   ? 'Copy failed — try again'
-                  : 'Copy Brief'}
+                  : 'Copy brief'}
             </span>
           </button>
 
           {hasEmail && (
             <a href={mailto} className="btn-outline">
               <Mail size={18} aria-hidden="true" />
-              Send via Email
+              Email brief
             </a>
           )}
 
@@ -502,7 +502,7 @@ export default function SmartContactEstimator() {
                 href={github.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-lg border border-slate-border px-4 py-3 text-sm font-medium text-white transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-md border border-white/10 px-4 py-3 text-sm font-medium text-white transition-colors hover:border-white/25"
               >
                 <GitHubIcon /> GitHub
               </a>
@@ -512,7 +512,7 @@ export default function SmartContactEstimator() {
                 href={linkedin.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-lg border border-slate-border px-4 py-3 text-sm font-medium text-white transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-md border border-white/10 px-4 py-3 text-sm font-medium text-white transition-colors hover:border-white/25"
               >
                 <LinkedInIcon /> LinkedIn
               </a>
@@ -522,7 +522,7 @@ export default function SmartContactEstimator() {
                 href={fiverr.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-lg border border-slate-border px-4 py-3 text-sm font-medium text-white transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                className="inline-flex min-w-[8.5rem] flex-1 items-center justify-center gap-2 rounded-md border border-white/10 px-4 py-3 text-sm font-medium text-white transition-colors hover:border-white/25"
               >
                 <Briefcase size={16} aria-hidden="true" /> Fiverr
               </a>

@@ -8,7 +8,7 @@ const brandText = profile.brand.slice(0, -1);
 const brandAccent = profile.brand.slice(-1);
 ---
 
-<header class="sticky top-0 z-50 border-b border-[#233554] bg-[#0A192F]/85 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-white/[0.08] bg-navy/90 backdrop-blur-md">
   <nav class="container-page flex h-16 min-w-0 items-center justify-between gap-3" aria-label="Primary">
     <a
       href="#"
@@ -24,7 +24,7 @@ const brandAccent = profile.brand.slice(-1);
           <li>
             <a
               href={link.href}
-              class="text-sm font-medium text-muted-slate transition-colors hover:text-electric-cyan"
+              class="text-sm font-medium text-muted-slate transition-colors hover:text-white"
             >
               {link.label}
             </a>
@@ -43,7 +43,7 @@ const brandAccent = profile.brand.slice(-1);
                   href={social.url}
                   target={social.id === 'email' ? undefined : '_blank'}
                   rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                  class="inline-flex size-9 items-center justify-center rounded-lg border border-[#233554] text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                  class="inline-flex size-9 items-center justify-center rounded-lg border border-white/10 text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                   aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
                 >
                   <SocialIcon id={social.id} size={16} />
@@ -54,12 +54,12 @@ const brandAccent = profile.brand.slice(-1);
         )
       }
 
-      <a href="#contact" class="btn-primary !px-3 !py-2 text-sm sm:!px-4">Hire Me</a>
+      <a href="#contact" class="btn-primary !px-3 !py-2 text-sm sm:!px-4">Contact</a>
 
       <button
         id="menu-toggle"
         type="button"
-        class="group inline-flex size-10 items-center justify-center rounded-lg border border-[#233554] text-white transition-colors hover:border-electric-cyan lg:hidden"
+        class="group inline-flex size-10 items-center justify-center rounded-lg border border-white/10 text-white transition-colors hover:border-white/25 lg:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Toggle navigation menu"
@@ -70,14 +70,14 @@ const brandAccent = profile.brand.slice(-1);
     </div>
   </nav>
 
-  <div id="mobile-menu" class="hidden border-t border-[#233554] lg:hidden">
+  <div id="mobile-menu" class="hidden border-t border-white/[0.08] lg:hidden">
     <ul class="container-page flex flex-col py-2">
       {
         navLinks.map((link) => (
           <li>
             <a
               href={link.href}
-              class="block rounded-lg px-2 py-3 text-base font-medium text-muted-slate transition-colors hover:text-electric-cyan"
+              class="block rounded-lg px-2 py-3 text-base font-medium text-muted-slate transition-colors hover:text-white"
             >
               {link.label}
             </a>
@@ -88,7 +88,7 @@ const brandAccent = profile.brand.slice(-1);
     {
       profile.socials.length > 0 && (
         <ul
-          class="container-page flex flex-wrap gap-2 border-t border-[#233554] py-3"
+          class="container-page flex flex-wrap gap-2 border-t border-white/[0.08] py-3"
           aria-label="Social profiles"
         >
           {profile.socials.map((social) => (
@@ -97,7 +97,7 @@ const brandAccent = profile.brand.slice(-1);
                 href={social.url}
                 target={social.id === 'email' ? undefined : '_blank'}
                 rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                class="inline-flex items-center gap-2 rounded-lg border border-[#233554] px-3 py-2 text-sm text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                class="inline-flex items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-sm text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                 aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
               >
                 <SocialIcon id={social.id} size={16} />

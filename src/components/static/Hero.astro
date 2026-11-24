@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Terminal } from 'lucide-react';
+import { ArrowRight, Layers } from 'lucide-react';
 import { profile } from '../../data/portfolioData';
 import SocialIcon from './SocialIcon.astro';
 
@@ -7,40 +7,31 @@ const [firstRole = ''] = profile.roles;
 ---
 
 <section class="hero relative isolate overflow-hidden">
-  <!-- Decorative background: CSS grid + radial glow (static, GPU-friendly, no libraries) -->
-  <div class="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
-  <div class="hero-glow pointer-events-none absolute left-1/2 top-0 -z-10" aria-hidden="true"></div>
+  <div class="hero-wash pointer-events-none absolute inset-0 -z-10" aria-hidden="true"></div>
 
   <div class="container-page flex min-h-[calc(100svh-4rem)] min-w-0 flex-col justify-center py-20 sm:py-28">
-    <div
-      class="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-status/30 bg-emerald-status/10 px-3.5 py-1.5 font-mono text-xs text-emerald-status sm:text-sm"
+    <p
+      class="inline-flex w-fit items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-muted-slate sm:text-sm"
     >
-      <span class="relative flex size-2">
-        <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-status opacity-75"></span>
-        <span class="relative inline-flex size-2 rounded-full bg-emerald-status"></span>
-      </span>
+      <span class="size-1.5 rounded-full bg-emerald-status" aria-hidden="true"></span>
       {profile.availability}
-    </div>
+    </p>
 
-    <h1 class="mt-6 max-w-full break-words text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
-      <span class="block text-2xl font-semibold text-muted-slate sm:text-3xl">Hi, I'm</span>
-      <span class="block bg-gradient-to-r from-white to-electric-cyan bg-clip-text text-transparent">
-        {profile.name}
-      </span>
+    <h1 class="mt-6 max-w-full break-words text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-6xl lg:text-7xl">
+      {profile.name}
     </h1>
 
-    <p class="mt-4 max-w-2xl text-lg font-semibold text-white sm:text-2xl">
+    <p class="mt-4 max-w-2xl text-lg text-muted-slate sm:text-xl">
       {profile.headline}
     </p>
 
-    <!-- Role ticker: first role is rendered in HTML, so it works without JS -->
-    <p class="mt-4 min-h-7 font-mono text-base text-electric-cyan sm:min-h-8 sm:text-xl">
-      <span class="mr-2 text-muted-slate">&gt;</span>
+    <p class="mt-3 min-h-6 font-mono text-sm text-muted-slate sm:text-base">
+      <span class="text-white/30">›</span>
       <span
         id="role-ticker"
         data-roles={JSON.stringify(profile.roles)}
-        class="inline-block transition duration-300 ease-out"
-      >{firstRole}</span><span class="caret" aria-hidden="true"></span>
+        class="ml-2 inline-block transition duration-300 ease-out"
+      >{firstRole}</span>
     </p>
 
     <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted-slate sm:text-lg">
@@ -49,11 +40,11 @@ const [firstRole = ''] = profile.roles;
 
     <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
       <a href="#automations" class="btn-primary">
-        <Terminal size={18} aria-hidden="true" />
-        Test Live Automations
+        <Layers size={18} aria-hidden="true" />
+        Pipeline demos
       </a>
       <a href="#projects" class="btn-outline">
-        Explore Projects
+        View projects
         <ArrowRight size={18} aria-hidden="true" />
       </a>
     </div>
@@ -66,7 +57,7 @@ const [firstRole = ''] = profile.roles;
               href={social.url}
               target={social.id === 'email' ? undefined : '_blank'}
               rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-              class="inline-flex items-center gap-2 text-sm text-muted-slate transition-colors hover:text-electric-cyan"
+              class="inline-flex items-center gap-2 text-sm text-muted-slate transition-colors hover:text-white"
               aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
             >
               <SocialIcon id={social.id} />
@@ -80,37 +71,10 @@ const [firstRole = ''] = profile.roles;
 </section>
 
 <style>
-  .hero-grid {
-    opacity: 0.35;
-    background-image:
-      linear-gradient(to right, #233554 1px, transparent 1px),
-      linear-gradient(to bottom, #233554 1px, transparent 1px);
-    background-size: 56px 56px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 25%, #000 20%, transparent 75%);
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 25%, #000 20%, transparent 75%);
-  }
-
-  .hero-glow {
-    width: min(900px, 140vw);
-    height: 520px;
-    transform: translate(-50%, -30%);
-    background: radial-gradient(closest-side, rgb(56 189 248 / 0.18), transparent);
-  }
-
-  .caret {
-    display: inline-block;
-    width: 0.6ch;
-    height: 1.1em;
-    margin-left: 2px;
-    vertical-align: text-bottom;
-    background: #38bdf8;
-    animation: blink 1s steps(1) infinite;
-  }
-
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+  .hero-wash {
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.02), transparent 42%),
+      radial-gradient(ellipse 80% 50% at 10% 0%, rgb(56 189 248 / 0.05), transparent 55%);
   }
 </style>
 
@@ -127,12 +91,12 @@ const [firstRole = ''] = profile.roles;
           el.textContent = roles[i] ?? '';
           return;
         }
-        el.classList.add('opacity-0', 'translate-y-2');
+        el.classList.add('opacity-0');
         setTimeout(() => {
           el.textContent = roles[i] ?? '';
-          el.classList.remove('opacity-0', 'translate-y-2');
-        }, 300);
-      }, 2600);
+          el.classList.remove('opacity-0');
+        }, 220);
+      }, 2800);
     }
   }
 </script>

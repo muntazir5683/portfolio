@@ -8,13 +8,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react';
-import {
-  ArrowUp,
-  Bot,
-  MessageCircle,
-  Sparkles,
-  X,
-} from 'lucide-react';
+import { ArrowUp, MessageCircle, X } from 'lucide-react';
 import {
   assistantKnowledge,
   type AssistantIntent,
@@ -35,7 +29,7 @@ interface ChatMessage {
 
 const SECTION_LABELS: Record<PortfolioSection, string> = {
   '#projects': 'Projects',
-  '#automations': 'Automations',
+  '#automations': 'Pipelines',
   '#contact': 'Contact',
   '#experience': 'Experience',
 };
@@ -83,7 +77,7 @@ function formatAnswer(text: string, onJump: (href: string) => void): ReactNode[]
         key={`link-${key++}`}
         type="button"
         onClick={() => onJump(href!)}
-        className="inline cursor-pointer font-medium text-electric-cyan underline decoration-electric-cyan/40 underline-offset-2 transition-colors hover:text-white"
+        className="inline cursor-pointer font-medium text-sky-300 underline decoration-sky-300/40 underline-offset-2 transition-colors hover:text-white"
       >
         {label}
       </button>,
@@ -219,27 +213,26 @@ export default function AiPortfolioAssistant() {
           role="dialog"
           aria-modal="false"
           aria-labelledby={titleId}
-          className="pointer-events-auto flex max-h-[min(34rem,calc(100dvh-7.5rem))] w-[min(100%,24rem)] max-w-full flex-col overflow-hidden rounded-2xl border border-[#233554] bg-[#112240]/95 shadow-2xl shadow-black/50 backdrop-blur-md animate-fade-in"
+          className="pointer-events-auto flex max-h-[min(34rem,calc(100dvh-7.5rem))] w-[min(100%,24rem)] max-w-full flex-col overflow-hidden rounded-xl border border-white/10 bg-slate-card shadow-2xl shadow-black/40 animate-fade-in"
         >
           {/* Header */}
-          <div className="flex items-center justify-between gap-3 border-b border-[#233554] px-4 py-3">
+          <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-3">
             <div className="flex items-center gap-3">
-              <span className="relative inline-flex size-9 items-center justify-center rounded-full bg-electric-cyan/15 text-electric-cyan">
-                <Bot size={18} aria-hidden="true" />
-                <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full border-2 border-slate-card bg-emerald-status" />
+              <span className="inline-flex size-9 items-center justify-center rounded-md border border-white/10 text-muted-slate">
+                <MessageCircle size={18} aria-hidden="true" />
               </span>
               <div>
                 <h2 id={titleId} className="text-sm font-semibold text-white">
                   {assistantKnowledge.name}
                 </h2>
-                <p className="font-mono text-[11px] text-muted-slate">Online · instant answers</p>
+                <p className="text-[11px] text-muted-slate">Short answers from this site</p>
               </div>
             </div>
             <button
               type="button"
               onClick={close}
               aria-label="Close assistant"
-              className="inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-slate-border text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+              className="inline-flex size-8 cursor-pointer items-center justify-center rounded-md border border-white/10 text-muted-slate transition-colors hover:border-white/25 hover:text-white"
             >
               <X size={16} aria-hidden="true" />
             </button>
@@ -257,10 +250,10 @@ export default function AiPortfolioAssistant() {
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[90%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                  className={`max-w-[90%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed ${
                     msg.role === 'user'
-                      ? 'rounded-br-md bg-electric-cyan text-navy'
-                      : 'rounded-bl-md border border-slate-border bg-navy/60 text-slate-200'
+                      ? 'bg-electric-cyan text-navy'
+                      : 'border border-white/[0.08] bg-navy/70 text-slate-200'
                   }`}
                 >
                   {msg.role === 'assistant' ? (
@@ -273,7 +266,7 @@ export default function AiPortfolioAssistant() {
                               key={section}
                               type="button"
                               onClick={() => handleJump(section)}
-                              className="cursor-pointer rounded-md border border-slate-border bg-slate-card px-2 py-0.5 font-mono text-[11px] text-electric-cyan transition-colors hover:border-electric-cyan"
+                              className="cursor-pointer rounded-md border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                             >
                               {SECTION_LABELS[section]}
                             </button>
@@ -287,7 +280,7 @@ export default function AiPortfolioAssistant() {
                               key={chip}
                               type="button"
                               onClick={() => ask(chip)}
-                              className="cursor-pointer rounded-full border border-electric-cyan/30 px-2.5 py-1 text-[11px] text-electric-cyan transition-colors hover:bg-electric-cyan/10"
+                              className="cursor-pointer rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                             >
                               {chip}
                             </button>
@@ -305,13 +298,13 @@ export default function AiPortfolioAssistant() {
 
           {/* Prompt chips — show when the conversation is still short */}
           {messages.length <= 1 && (
-            <div className="flex flex-wrap gap-1.5 border-t border-[#233554] px-4 py-3">
+            <div className="flex flex-wrap gap-1.5 border-t border-white/[0.08] px-4 py-3">
               {chips.map((chip) => (
                 <button
                   key={chip}
                   type="button"
                   onClick={() => ask(chip)}
-                  className="cursor-pointer rounded-full border border-slate-border bg-navy/40 px-2.5 py-1 text-left text-[11px] text-muted-slate transition-colors hover:border-electric-cyan hover:text-electric-cyan"
+                  className="cursor-pointer rounded-full border border-white/10 bg-navy/40 px-2.5 py-1 text-left text-[11px] text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                 >
                   {chip}
                 </button>
@@ -322,7 +315,7 @@ export default function AiPortfolioAssistant() {
           {/* Composer */}
           <form
             onSubmit={onSubmit}
-            className="flex items-center gap-2 border-t border-[#233554] p-3"
+            className="flex items-center gap-2 border-t border-white/[0.08] p-3"
           >
             <label className="sr-only" htmlFor="assistant-input">
               Ask a question
@@ -333,15 +326,15 @@ export default function AiPortfolioAssistant() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about projects, stack, hiring…"
+              placeholder="Projects, stack, contact…"
               autoComplete="off"
-              className="min-w-0 flex-1 rounded-lg border border-slate-border bg-navy px-3 py-2.5 text-sm text-white placeholder:text-muted-slate/60 focus:border-electric-cyan focus:outline-none"
+              className="min-w-0 flex-1 rounded-md border border-white/10 bg-navy px-3 py-2.5 text-sm text-white placeholder:text-muted-slate/60 focus:border-white/30 focus:outline-none"
             />
             <button
               type="submit"
               disabled={!input.trim()}
               aria-label="Send message"
-              className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-electric-cyan text-navy transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-md bg-electric-cyan text-navy transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ArrowUp size={18} aria-hidden="true" />
             </button>
@@ -356,31 +349,10 @@ export default function AiPortfolioAssistant() {
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
         aria-controls="ai-assistant-panel"
-        aria-label={open ? 'Close AI assistant' : 'Open AI portfolio assistant'}
-        className="pointer-events-auto group relative inline-flex size-14 cursor-pointer items-center justify-center rounded-full bg-electric-cyan text-navy shadow-lg shadow-electric-cyan/20 transition-transform hover:scale-105"
+        aria-label={open ? 'Close ask-about-my-work chat' : 'Ask about my work'}
+        className="pointer-events-auto inline-flex size-12 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-slate-card text-white shadow-lg shadow-black/30 transition-colors hover:border-white/30"
       >
-        {/* Subtle pulse ring */}
-        {!open && (
-          <span
-            className="absolute inset-0 animate-ping rounded-full bg-electric-cyan/40"
-            aria-hidden="true"
-          />
-        )}
-        <span className="relative flex items-center justify-center">
-          {open ? (
-            <X size={22} aria-hidden="true" />
-          ) : (
-            <>
-              <Bot size={22} className="group-hover:hidden" aria-hidden="true" />
-              <Sparkles size={22} className="hidden group-hover:block" aria-hidden="true" />
-              <MessageCircle
-                size={12}
-                className="absolute -bottom-0.5 -right-1 text-navy"
-                aria-hidden="true"
-              />
-            </>
-          )}
-        </span>
+        {open ? <X size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
       </button>
     </div>
   );
