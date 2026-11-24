@@ -1,0 +1,52 @@
+---
+import { FileText, Phone, RefreshCw } from 'lucide-react';
+import { serviceOffers, type ServiceOffer } from '../../data/portfolioData';
+
+const icons = {
+  Phone,
+  FileText,
+  RefreshCw,
+} satisfies Record<ServiceOffer['icon'], unknown>;
+---
+
+<section id="services" class="section-padding border-t border-white/[0.08]">
+  <div class="container-page">
+    <header class="max-w-2xl">
+      <p class="section-kicker">Services</p>
+      <h2 class="section-heading mt-2">Built for independent brokers &amp; lending teams</h2>
+      <p class="mt-3 text-muted-slate">
+        Three specialty systems — not generic chatbots. Scoped, demoed, and handed off to your stack.
+      </p>
+    </header>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-3">
+      {
+        serviceOffers.map((offer) => {
+          const Icon = icons[offer.icon];
+          return (
+            <article class="card card-hover flex flex-col gap-4 p-6">
+              <div class="flex items-start gap-3">
+                <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-white/10 text-electric-cyan">
+                  <Icon size={18} aria-hidden="true" />
+                </span>
+                <div class="min-w-0">
+                  <h3 class="text-base font-semibold leading-snug text-white">{offer.title}</h3>
+                  <p class="mt-1 font-mono text-[11px] text-emerald-status">{offer.tagline}</p>
+                </div>
+              </div>
+              <p class="text-sm leading-relaxed text-muted-slate">{offer.description}</p>
+              <ul class="mt-auto space-y-2 border-t border-white/[0.08] pt-4">
+                {offer.outcomes.map((item) => (
+                  <li class="flex items-start gap-2 text-xs text-slate-300">
+                    <span class="mt-1 size-1.5 shrink-0 rounded-full bg-electric-cyan/70" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

@@ -15,17 +15,17 @@ const HOW_WE_WORK = [
   {
     step: '1',
     title: 'Scope & Architecture',
-    detail: 'Clarify goals, constraints, and the smallest shippable system.',
+    detail: 'Map lead channels, doc intake, and LOS/CRM constraints.',
   },
   {
     step: '2',
     title: 'Rapid Build & Demo',
-    detail: 'Iterate fast with working demos you can click through.',
+    detail: 'Ship a working pre-qual or parser demo your LOs can click.',
   },
   {
     step: '3',
     title: 'Deploy & Handoff',
-    detail: 'Ship to production with docs, access, and clean ownership.',
+    detail: 'Go live with monitoring, docs, and clean ownership transfer.',
   },
 ] as const;
 import {
@@ -259,7 +259,7 @@ const pillIdle =
 export default function SmartContactEstimator() {
   const [engagementId, setEngagementId] = useState(engagementTypes[0]!.id);
   const [timelineId, setTimelineId] = useState(timelineOptions[1]!.id);
-  const [featureIds, setFeatureIds] = useState<string[]>(['python-backend', 'react-frontend']);
+  const [featureIds, setFeatureIds] = useState<string[]>(['voice-sms', 'doc-parser']);
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [notes, setNotes] = useState('');
@@ -450,13 +450,13 @@ export default function SmartContactEstimator() {
             </label>
           </div>
           <label className="block text-sm text-muted-slate">
-            Project / role description
+            Brokerage workflow / constraints
             <textarea
               name="notes"
               rows={4}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="What are you hiring for or building? Stack preferences, must-haves, constraints…"
+              placeholder="LOS/CRM stack, call volume, doc types, compliance constraints, must-haves…"
               className={`mt-1.5 resize-y ${fieldClass}`}
             />
           </label>

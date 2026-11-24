@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/static/Navbar.astro';
 import Hero from '../components/static/Hero.astro';
+import Services from '../components/static/Services.astro';
 import SkillsExperience from '../components/static/SkillsExperience.astro';
 import Footer from '../components/static/Footer.astro';
 import AutomationSandbox from '../components/islands/AutomationSandbox';
@@ -16,32 +17,25 @@ import AiPortfolioAssistant from '../components/islands/AiPortfolioAssistant';
   <main>
     <Hero />
 
+    <Services />
+
+    <section id="projects" class="section-padding border-t border-white/[0.08]">
+      <div class="container-page">
+        <ProjectShowcase client:visible />
+      </div>
+    </section>
+
     <section id="automations" class="studio-canvas studio-canvas-alt section-padding border-t border-white/[0.08]">
       <div class="container-page">
         <header class="max-w-2xl">
           <p class="section-kicker">Live systems</p>
           <h2 class="section-heading mt-2">Interactive pipeline simulator</h2>
           <p class="mt-3 text-muted-slate">
-            Run demos of real workflows — time saved, step logs, and sample JSON — the way a client would see them in production.
+            Run engineering pipeline demos — step logs and sample JSON — the same delivery style behind mortgage agents.
           </p>
         </header>
         <div class="mt-10">
           <AutomationSandbox client:visible />
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section-padding border-t border-white/[0.08]">
-      <div class="container-page">
-        <header class="max-w-2xl">
-          <p class="section-kicker">Selected work</p>
-          <h2 class="section-heading mt-2">Projects</h2>
-          <p class="mt-3 text-muted-slate">
-            Web apps, scrapers, and browser tools shipped for real workflows.
-          </p>
-        </header>
-        <div class="mt-10">
-          <ProjectShowcase client:visible />
         </div>
       </div>
     </section>
@@ -52,9 +46,9 @@ import AiPortfolioAssistant from '../components/islands/AiPortfolioAssistant';
       <div class="container-page">
         <header class="max-w-2xl">
           <p class="section-kicker">Contact</p>
-          <h2 class="section-heading mt-2">Project inquiry &amp; scope</h2>
+          <h2 class="section-heading mt-2">Scope a broker AI build</h2>
           <p class="mt-3 text-muted-slate">
-            Tell me what you need. I will turn it into a short brief you can email or copy.
+            Tell me about your lead flow, document intake, and LOS/CRM. I will turn it into a short brief you can email or copy.
           </p>
         </header>
         <div class="mt-10">

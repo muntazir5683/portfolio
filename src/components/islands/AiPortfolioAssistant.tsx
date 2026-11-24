@@ -28,7 +28,8 @@ interface ChatMessage {
 }
 
 const SECTION_LABELS: Record<PortfolioSection, string> = {
-  '#projects': 'Projects',
+  '#projects': 'Systems',
+  '#services': 'Services',
   '#automations': 'Pipelines',
   '#contact': 'Contact',
   '#experience': 'Experience',
@@ -122,7 +123,7 @@ export default function AiPortfolioAssistant() {
       id: 0,
       role: 'assistant',
       text: assistantKnowledge.greeting,
-      sections: ['#projects', '#automations', '#contact'],
+      sections: ['#services', '#projects', '#contact'],
     },
   ]);
 
@@ -225,7 +226,9 @@ export default function AiPortfolioAssistant() {
                 <h2 id={titleId} className="text-sm font-semibold text-white">
                   {assistantKnowledge.name}
                 </h2>
-                <p className="text-[11px] text-muted-slate">Short answers from this site</p>
+                <p className="text-[11px] text-muted-slate">
+                  Pre-qual · doc automation · broker ops
+                </p>
               </div>
             </div>
             <button
@@ -326,7 +329,7 @@ export default function AiPortfolioAssistant() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Projects, stack, contact…"
+              placeholder="Pre-qual, docs, LOS sync…"
               autoComplete="off"
               className="min-w-0 flex-1 rounded-md border border-white/10 bg-navy px-3 py-2.5 text-sm text-white placeholder:text-muted-slate/60 focus:border-white/30 focus:outline-none"
             />
@@ -349,7 +352,7 @@ export default function AiPortfolioAssistant() {
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
         aria-controls="ai-assistant-panel"
-        aria-label={open ? 'Close ask-about-my-work chat' : 'Ask about my work'}
+        aria-label={open ? 'Close Mortgage AI Concierge' : 'Open Mortgage AI Concierge'}
         className="pointer-events-auto inline-flex size-12 cursor-pointer items-center justify-center rounded-full border border-white/15 bg-slate-card text-white shadow-lg shadow-black/30 transition-colors hover:border-white/30"
       >
         {open ? <X size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}

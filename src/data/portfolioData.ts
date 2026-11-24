@@ -93,7 +93,11 @@ export type ProjectMotif =
   | 'risk-meter'
   | 'chrome-tabs'
   | 'pdf-sorter'
-  | 'urdu-canvas';
+  | 'urdu-canvas'
+  | 'loan-doc'
+  | 'voice-agent';
+
+export type ProjectShowcaseTier = 'flagship' | 'proof';
 
 export interface Project {
   id: string;
@@ -110,6 +114,8 @@ export interface Project {
   outcome: string;
   /** CSS/SVG architectural preview motif for the card header. */
   motif: ProjectMotif;
+  /** Flagship mortgage systems vs engineering proof work. */
+  showcase: ProjectShowcaseTier;
   stack: string[];
   featured: boolean;
   /** Only rendered when a non-empty string — never use '#' placeholders. */
@@ -118,6 +124,15 @@ export interface Project {
   caseStudy: ProjectCaseStudy;
   /** Optional WebP thumbnail in /public/assets */
   thumbnail?: string;
+}
+
+export interface ServiceOffer {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  outcomes: string[];
+  icon: 'Phone' | 'FileText' | 'RefreshCw';
 }
 
 /* ---- Automation sandbox -------------------------------------------- */
@@ -159,7 +174,12 @@ export interface WorkflowPreset {
 
 /* ---- AI portfolio assistant ---------------------------------------- */
 
-export type PortfolioSection = '#projects' | '#automations' | '#contact' | '#experience';
+export type PortfolioSection =
+  | '#projects'
+  | '#services'
+  | '#automations'
+  | '#contact'
+  | '#experience';
 
 export interface AssistantIntent {
   id: string;
@@ -213,17 +233,17 @@ export interface DeliverableOption {
 export const profile: Profile = {
   name: 'Syed Muntazir',
   brand: 'SM.',
-  headline: 'Software Engineer — Python, FastAPI & React',
-  title: 'Software Engineer',
-  location: 'Pakistan',
-  availability: 'Open to full-time roles and freelance work',
+  headline: 'Custom Python AI Agents for Independent US Mortgage Brokers',
+  title: 'Mortgage AI Engineer',
+  location: 'Remote · US Mortgage Ops',
+  availability: 'Accepting broker & lending-team builds',
   summary:
-    'I build web apps, data scrapers, browser extensions, and small workflow automations for businesses. Most of my work sits between Python/FastAPI backends and React frontends, with a lot of scraping and glue code in between.',
+    'Custom Python AI agents that pre-qualify leads 24/7 and parse W-2s & bank statements automatically — so independent brokers and lending teams stop losing deals to after-hours voicemail and manual document review.',
   roles: [
-    'Python & FastAPI backends',
-    'React web apps',
-    'Scrapers & data pipelines',
-    'Chrome extensions',
+    '24/7 lead pre-qualification',
+    'W-2 & bank statement parsing',
+    'Borrower follow-up agents',
+    'LOS / CRM sync',
   ],
   email: CONTACT_EMAIL.trim(),
   resumeUrl: RESUME_URL.trim() || '#contact',
@@ -261,10 +281,57 @@ export const profile: Profile = {
 };
 
 export const navLinks: NavLink[] = [
-  { label: 'Projects', href: '#projects' },
+  { label: 'Services', href: '#services' },
+  { label: 'Systems', href: '#projects' },
   { label: 'Pipelines', href: '#automations' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
+];
+
+/* ================================================================== */
+/* Services — mortgage AI offers                                      */
+/* ================================================================== */
+
+export const serviceOffers: ServiceOffer[] = [
+  {
+    id: 'voice-sms-receptionist',
+    title: '24/7 AI Voice & SMS Lead Receptionist',
+    tagline: 'Never miss a borrower after hours',
+    description:
+      'Answers inbound calls and texts around the clock, asks loan-intent questions, qualifies for purchase vs refinance, and books warm handoffs to your LO — without a call-center seat.',
+    outcomes: [
+      'Capture nights & weekend leads',
+      'Purchase / refi / cash-out routing',
+      'Calendar or CRM appointment booking',
+    ],
+    icon: 'Phone',
+  },
+  {
+    id: 'loan-doc-parser',
+    title: 'Automated Loan Doc & Bank Statement Parser',
+    tagline: 'DTI & income extraction from messy PDFs',
+    description:
+      'Reads W-2s, paystubs, and bank statements; extracts income, deposits, and liabilities; and returns structured fields your team can trust before underwriting triage.',
+    outcomes: [
+      'W-2 / paystub / statement OCR + LLM',
+      'Income & DTI draft fields',
+      'Exception flags for human review',
+    ],
+    icon: 'FileText',
+  },
+  {
+    id: 'followup-los-sync',
+    title: 'Automated Borrower Follow-Up & LOS/CRM Sync',
+    tagline: 'Keep pipelines warm without manual chasing',
+    description:
+      'Sequences SMS/email nudges for missing docs, status updates, and rate-lock reminders, then writes activity back to your LOS or CRM so nothing falls through the cracks.',
+    outcomes: [
+      'Doc-request chase sequences',
+      'Status & rate-lock reminders',
+      'LOS / CRM activity sync',
+    ],
+    icon: 'RefreshCw',
+  },
 ];
 
 /* ================================================================== */
@@ -274,25 +341,25 @@ export const navLinks: NavLink[] = [
 export const skillGroups: SkillGroup[] = [
   {
     id: 'backend',
-    title: 'Backend & Automation',
+    title: 'AI Agents & Pipelines',
     skills: [
       'Python',
       'FastAPI',
-      'REST APIs',
-      'Web Scraping',
+      'Voice / SMS agents',
+      'Document OCR + LLM',
+      'Webhook & LOS sync',
       'Workflow automation',
-      'Chrome Extensions',
     ],
   },
   {
     id: 'frontend',
-    title: 'Frontend',
-    skills: ['React', 'Astro', 'Tailwind CSS', 'Vite', 'HTML/CSS'],
+    title: 'Broker Ops UIs',
+    skills: ['React', 'Astro', 'Tailwind CSS', 'Vite', 'Ops dashboards'],
   },
   {
     id: 'qa-devops',
-    title: 'QA & Deploy',
-    skills: ['Manual & regression QA', 'Git / GitHub', 'Vercel', 'Render'],
+    title: 'Ship & Harden',
+    skills: ['Regression QA', 'Git / GitHub', 'Vercel', 'Render', 'Secure handoff'],
   },
 ];
 
@@ -362,6 +429,60 @@ export const projectFilters: ProjectFilter[] = [
 
 export const projects: Project[] = [
   {
+    id: 'loandoc-ai',
+    title: 'LoanDoc AI (W-2 & Bank Statement Parser)',
+    categories: ['AI & Automation', 'Full-Stack Web'],
+    description:
+      'Mortgage document AI that extracts income, liabilities, and deposit patterns from W-2s, paystubs, and bank statements into structured fields for LO review.',
+    summary:
+      'Upload W-2s and bank statements — get draft DTI/income fields and exception flags without manual spreadsheet entry.',
+    problem: 'Processors burn hours re-keying W-2s and statements before a file is even touchable.',
+    outcome: 'Structured income · DTI draft · review flags',
+    motif: 'loan-doc',
+    showcase: 'flagship',
+    stack: ['Python', 'FastAPI', 'OCR + LLM', 'React'],
+    featured: true,
+    caseStudy: {
+      problem:
+        'Independent brokers receive PDFs and phone photos of W-2s, paystubs, and bank statements. Manual transcription slows pre-qual and introduces typos in income and liability fields.',
+      solution:
+        'A Python/FastAPI pipeline runs OCR, LLM field extraction, and rule checks for missing pages or inconsistent YTD income. React review UI lets an LO accept, edit, or escalate fields before syncing downstream.',
+      highlights: [
+        'W-2, paystub, and multi-page bank statement support',
+        'Draft monthly income and DTI inputs for human confirmation',
+        'Exception queue for low-confidence or conflicting values',
+        'Export-ready JSON for CRM / LOS handoff',
+      ],
+    },
+  },
+  {
+    id: 'brokervoice-ai',
+    title: 'BrokerVoice AI (24/7 Lead Qualification Agent)',
+    categories: ['AI & Automation', 'Full-Stack Web'],
+    description:
+      'Always-on voice and SMS agent that greets inbound mortgage leads, runs purchase vs refinance pre-qual questions, and books warm handoffs to the LO.',
+    summary:
+      'Answers after-hours calls and texts, qualifies intent and timeline, and schedules the LO instead of dumping to voicemail.',
+    problem: 'Nights and weekends — high-intent borrowers hit voicemail and shop the next broker.',
+    outcome: '24/7 pre-qual · booked LO handoffs',
+    motif: 'voice-agent',
+    showcase: 'flagship',
+    stack: ['Python', 'Voice / SMS APIs', 'FastAPI', 'CRM webhooks'],
+    featured: true,
+    caseStudy: {
+      problem:
+        'Independent LOs cannot staff a call desk overnight. Missed first-touch often means the lead never returns.',
+      solution:
+        'BrokerVoice answers voice and SMS, asks compliant pre-qual questions (loan purpose, credit band, timeline, property status), scores readiness, and either books a calendar slot or creates a CRM task with transcript + summary.',
+      highlights: [
+        'Voice + SMS channels with shared conversation state',
+        'Purchase / refinance / cash-out intent routing',
+        'Warm transfer or calendar booking into LO availability',
+        'Transcript + lead score written to CRM',
+      ],
+    },
+  },
+  {
     id: 'pakgovjobs',
     title: 'PakGovJobs',
     categories: ['Full-Stack Web', 'AI & Automation'],
@@ -372,6 +493,7 @@ export const projects: Project[] = [
     problem: 'Job seekers jump across portals with inconsistent dates and expired posts still listed.',
     outcome: 'Single cleaned feed · active vs expired',
     motif: 'job-board',
+    showcase: 'proof',
     stack: ['Python', 'FastAPI', 'Web Scraping', 'React'],
     featured: true,
     githubUrl: 'https://github.com/muntazir5683/pakgovtjobs',
@@ -399,6 +521,7 @@ export const projects: Project[] = [
     problem: 'Buyers guess whether Instagram / small-web sellers are legit before paying.',
     outcome: 'Risk score + explainable signals',
     motif: 'risk-meter',
+    showcase: 'proof',
     stack: ['React', 'Vite', 'Tailwind CSS', 'Python FastAPI'],
     featured: true,
     caseStudy: {
@@ -416,7 +539,7 @@ export const projects: Project[] = [
   },
   {
     id: 'auto-tab-refresher',
-    title: 'Auto Tab Refresher',
+    title: 'Smart Page Monitor',
     categories: ['Browser & Utility Tools'],
     description:
       'Chrome extension that reloads selected tabs on a timer, highlights DOM changes, and nudges idle pages so sessions do not drop.',
@@ -425,6 +548,7 @@ export const projects: Project[] = [
     problem: 'Manual refresh on listings/dashboards misses updates and idle tabs time out.',
     outcome: 'Timed reload + DOM change highlights',
     motif: 'chrome-tabs',
+    showcase: 'proof',
     stack: ['JavaScript', 'Chrome Extension APIs', 'DOM Mutation'],
     featured: true,
     caseStudy: {
@@ -451,6 +575,7 @@ export const projects: Project[] = [
     problem: 'Online converters upload private docs and often reorder or crush quality.',
     outcome: 'Local PDF · selection order preserved',
     motif: 'pdf-sorter',
+    showcase: 'proof',
     stack: ['JavaScript', 'Client-Side PDF Generation', 'Responsive UI'],
     featured: true,
     caseStudy: {
@@ -477,8 +602,9 @@ export const projects: Project[] = [
     problem: 'Formal Urdu posters need heavy desktop software; web editors break RTL.',
     outcome: 'Browser canvas · Urdu / RTL first-class',
     motif: 'urdu-canvas',
+    showcase: 'proof',
     stack: ['React', 'HTML5 Canvas', 'Tailwind CSS'],
-    featured: true,
+    featured: false,
     caseStudy: {
       problem:
         'Formal Urdu posters usually need CorelDRAW or similar. Lightweight web editors tend to mishandle right-to-left text and font shaping.',
@@ -849,53 +975,129 @@ export const workflowPresets: WorkflowPreset[] = [
 /* ================================================================== */
 
 export const assistantKnowledge: AssistantKnowledge = {
-  name: 'Ask About My Work',
+  name: 'Mortgage AI Concierge',
   greeting:
-    'Ask about projects, stack, or how to get in touch. Short answers — use the links if you want the full page.',
+    'I am the Mortgage AI Concierge for this studio. Ask how we pre-qualify borrowers 24/7, parse W-2s & bank statements, or sync follow-ups into your LOS/CRM.',
   fallback:
-    "I don't have a canned answer for that. Use [[#contact|Contact]], email syedmuntazir.pwh@gmail.com, Fiverr (@muntazirhamdani), or GitHub (muntazir5683).",
+    "I don't have a canned answer for that. Browse [[#services|Services]] and [[#projects|Flagship systems]], or send a brief via [[#contact|Contact]] / email syedmuntazir.pwh@gmail.com.",
   intents: [
     {
-      id: 'why-hire',
-      chip: 'What kind of work does he do?',
-      keywords: ['why hire', 'hire', 'automation', 'ai automation', 'workflow', 'benefit', 'strength', 'kind of work', 'what does'],
+      id: 'prequal',
+      chip: 'How does 24/7 lead pre-qual work?',
+      keywords: [
+        'pre-qual',
+        'prequal',
+        'pre qualification',
+        'lead',
+        'voice',
+        'sms',
+        'after hours',
+        '24/7',
+        'brokervoice',
+        'receptionist',
+      ],
       answer:
-        'Mostly Python/FastAPI backends, React UIs, scrapers, and small automations that glue systems together. PakGovJobs and SellerShield are the clearest examples.\n\n[[#automations|Pipeline demos]] · [[#projects|Projects]]',
-      followUps: ['SellerShield & PakGovJobs?', 'How do I reach him?'],
-      sections: ['#automations', '#projects'],
+        'BrokerVoice AI answers voice and SMS after hours, asks purchase vs refinance questions, scores readiness, and books a warm LO handoff instead of dumping to voicemail.\n\n[[#services|Services]] · [[#projects|BrokerVoice AI]]',
+      followUps: ['What about W-2 / bank statement parsing?', 'Book a broker build'],
+      sections: ['#services', '#projects'],
     },
     {
-      id: 'projects',
-      chip: 'SellerShield & PakGovJobs?',
-      keywords: ['sellershield', 'pakgovjobs', 'pakgov', 'project', 'projects', 'portfolio', 'work', 'built'],
+      id: 'docs',
+      chip: 'What about W-2 / bank statement parsing?',
+      keywords: [
+        'w-2',
+        'w2',
+        'bank statement',
+        'paystub',
+        'dti',
+        'income',
+        'document',
+        'parser',
+        'loandoc',
+        'ocr',
+      ],
       answer:
-        'PakGovJobs scrapes several government job sites, normalizes closing dates, and filters expired ads (Python, FastAPI, React). SellerShield takes a store URL and returns a risk score with the signals behind it (React, FastAPI).\n\n[[#projects|Case studies]] · [[#automations|Run the demos]]',
-      followUps: ['What is his stack?', 'How do I reach him?'],
-      sections: ['#projects', '#automations'],
+        'LoanDoc AI OCR + LLM-extracts income, liabilities, and deposit patterns from W-2s, paystubs, and statements, then flags exceptions for LO review before any LOS write.\n\n[[#projects|LoanDoc AI]] · [[#services|Doc parser service]]',
+      followUps: ['How does 24/7 lead pre-qual work?', 'Book a broker build'],
+      sections: ['#projects', '#services'],
     },
     {
-      id: 'tech-stack',
-      chip: 'What is his stack?',
-      keywords: ['tech', 'stack', 'skills', 'technology', 'technologies', 'python', 'react', 'fastapi', 'tools', 'language'],
+      id: 'services',
+      chip: 'What can you automate for my brokerage?',
+      keywords: [
+        'service',
+        'services',
+        'automate',
+        'brokerage',
+        'mortgage',
+        'lending',
+        'follow-up',
+        'follow up',
+        'crm',
+        'los',
+        'offer',
+      ],
       answer:
-        'Day to day: Python, FastAPI, React, Astro, Tailwind, scraping, Chrome extensions. Deployments on Vercel and Render. QA experience from internship and freelance handoffs.\n\n[[#experience|Skills & experience]]',
-      followUps: ['SellerShield & PakGovJobs?', 'How do I reach him?'],
-      sections: ['#experience'],
+        'Three specialty builds: (1) 24/7 AI Voice & SMS Lead Receptionist, (2) Automated Loan Doc & Bank Statement Parser, (3) Borrower Follow-Up + LOS/CRM Sync.\n\n[[#services|See services]]',
+      followUps: ['How does 24/7 lead pre-qual work?', 'Book a broker build'],
+      sections: ['#services'],
+    },
+    {
+      id: 'proof',
+      chip: 'Show engineering proof work',
+      keywords: [
+        'sellershield',
+        'pakgovjobs',
+        'pakgov',
+        'page monitor',
+        'image to pdf',
+        'proof',
+        'engineering',
+        'project',
+        'projects',
+        'portfolio',
+      ],
+      answer:
+        'Under Engineering & Automation Proof: SellerShield (risk scoring), Smart Page Monitor, PakGovJobs (multi-source scrape + expiry), and Image→PDF. Same Python/React delivery muscle behind the mortgage agents.\n\n[[#projects|Proof section]]',
+      followUps: ['What can you automate for my brokerage?', 'Book a broker build'],
+      sections: ['#projects'],
     },
     {
       id: 'start-project',
-      chip: 'How do I reach him?',
-      keywords: ['start', 'contact', 'project with', 'work together', 'quote', 'price', 'pricing', 'cost', 'estimate', 'budget', 'fiverr', 'email', 'reach'],
+      chip: 'Book a broker build',
+      keywords: [
+        'start',
+        'contact',
+        'book',
+        'hire',
+        'quote',
+        'price',
+        'pricing',
+        'cost',
+        'estimate',
+        'budget',
+        'fiverr',
+        'email',
+        'reach',
+        'work together',
+      ],
       answer:
-        'Fill the [[#contact|inquiry form]] and copy or email the brief, or message on Fiverr (@muntazirhamdani) / GitHub (muntazir5683). Open to full-time roles too.',
-      followUps: ['What is his stack?'],
+        'Use the [[#contact|scope builder]] to describe your brokerage workflow, then copy or email the brief. You can also reach Fiverr (@muntazirhamdani) or syedmuntazir.pwh@gmail.com.',
+      followUps: ['What can you automate for my brokerage?'],
       sections: ['#contact'],
+    },
+    {
+      id: 'tech-stack',
+      keywords: ['tech', 'stack', 'skills', 'python', 'react', 'fastapi', 'tools', 'language'],
+      answer:
+        'Delivery stack: Python, FastAPI, React/Astro, OCR + LLM pipelines, voice/SMS APIs, and CRM/LOS webhooks. [[#experience|Skills]]',
+      sections: ['#experience'],
     },
     {
       id: 'experience',
       keywords: ['experience', 'background', 'career', 'intern', 'job history', 'worked'],
       answer:
-        'Freelance on Fiverr now. Before that: Admin/HR at Capital Smart City, customer service at MoPH Qatar, and a software intern role at App in Snap.\n\n[[#experience|Timeline]]',
+        'Builds custom AI agents for broker ops; background spans freelance engineering, ops roles, and a software internship. [[#experience|Timeline]]',
       sections: ['#experience'],
     },
     {
@@ -907,17 +1109,10 @@ export const assistantKnowledge: AssistantKnowledge = {
     },
     {
       id: 'availability',
-      keywords: ['available', 'availability', 'full-time', 'full time', 'freelance', 'open to', 'job'],
+      keywords: ['available', 'availability', 'freelance', 'open to', 'accepting'],
       answer:
-        'Yes — full-time or freelance. Use [[#contact|Contact]] to send a short brief.',
+        'Yes — accepting custom builds for independent US mortgage brokers and lending teams. [[#contact|Send a brief]]',
       sections: ['#contact'],
-    },
-    {
-      id: 'extensions-tools',
-      keywords: ['chrome', 'extension', 'scraper', 'scraping', 'pdf', 'urdu', 'poster', 'tool', 'tools', 'utility'],
-      answer:
-        'Also shipped a tab refresher Chrome extension, a client-side image→PDF tool, and a canvas-based Urdu poster editor. [[#projects|Projects]]',
-      sections: ['#projects'],
     },
   ],
 };
@@ -928,24 +1123,24 @@ export const assistantKnowledge: AssistantKnowledge = {
 
 export const engagementTypes: EngagementType[] = [
   {
-    id: 'full-time',
-    label: 'Full-time / contract role',
-    description: 'Join a team as a software engineer.',
-  },
-  {
     id: 'ai-automation',
-    label: 'Automation / bot',
-    description: 'Scrapers, chatbots, scheduled jobs, glue code.',
+    label: '24/7 Lead Receptionist',
+    description: 'Voice & SMS pre-qualification agent for your brokerage.',
   },
   {
     id: 'full-stack',
-    label: 'Web app',
-    description: 'React UI with a Python/FastAPI backend.',
+    label: 'Loan Doc / Statement Parser',
+    description: 'W-2, paystub, and bank statement extraction into DTI fields.',
   },
   {
     id: 'chrome-extension',
-    label: 'Chrome extension / scraper',
-    description: 'Browser extensions and page monitors.',
+    label: 'Follow-Up + LOS/CRM Sync',
+    description: 'Borrower chase sequences wired into your existing stack.',
+  },
+  {
+    id: 'full-time',
+    label: 'Custom mortgage AI build',
+    description: 'Scoped agent or pipeline beyond the three core offers.',
   },
 ];
 
@@ -971,11 +1166,11 @@ export const timelineOptions: TimelineOption[] = [
 ];
 
 export const deliverableOptions: DeliverableOption[] = [
+  { id: 'voice-sms', label: 'Voice & SMS Lead Agent' },
+  { id: 'doc-parser', label: 'W-2 / Bank Statement Parser' },
+  { id: 'followup', label: 'Borrower Follow-Up Sequences' },
+  { id: 'los-crm', label: 'LOS / CRM Sync' },
   { id: 'python-backend', label: 'Python / FastAPI Backend' },
-  { id: 'react-frontend', label: 'React / Astro Frontend' },
-  { id: 'ai-chatbot', label: 'AI Chatbot / RAG' },
-  { id: 'scraping', label: 'Web Scraping / Data Pipeline' },
-  { id: 'qa-deploy', label: 'QA & Deployment' },
-  { id: 'chrome-ext', label: 'Chrome Extension' },
+  { id: 'ops-dashboard', label: 'LO Review Dashboard' },
   { id: 'api-integration', label: 'Third-Party API Integration' },
 ];

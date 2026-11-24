@@ -271,7 +271,125 @@ function MotifPreview({ motif }: { motif: ProjectMotif }) {
           </div>
         </div>
       )}
+      {motif === 'loan-doc' && (
+        <div className="relative flex h-full items-center gap-3 p-3">
+          <div className="flex w-16 flex-col overflow-hidden rounded border border-white/12 bg-white/[0.04]">
+            <div className="bg-electric-cyan/30 px-1.5 py-1 font-mono text-[8px] text-white">W-2</div>
+            <div className="space-y-1 p-1.5">
+              <span className="block h-1 rounded-sm bg-white/25" />
+              <span className="block h-1 w-3/4 rounded-sm bg-white/15" />
+              <span className="block h-1 w-1/2 rounded-sm bg-white/10" />
+            </div>
+          </div>
+          <div className="flex flex-1 flex-col gap-1.5">
+            {[
+              ['income', '$7,420'],
+              ['liabilities', '$1,105'],
+              ['dti draft', '31%'],
+            ].map(([k, v]) => (
+              <div
+                key={k}
+                className="flex items-center justify-between rounded border border-white/10 bg-navy/50 px-2 py-1 font-mono text-[10px]"
+              >
+                <span className="text-muted-slate">{k}</span>
+                <span className="text-emerald-status">{v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {motif === 'voice-agent' && (
+        <div className="relative flex h-full flex-col justify-between p-3">
+          <div className="flex items-center gap-2">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-status opacity-40" />
+              <span className="relative size-2 rounded-full bg-emerald-status" />
+            </span>
+            <span className="font-mono text-[10px] text-emerald-status">live · voice + SMS</span>
+          </div>
+          <div className="space-y-1.5">
+            <div className="max-w-[85%] rounded-lg rounded-bl-sm border border-white/10 bg-white/[0.05] px-2.5 py-1.5 text-[10px] text-slate-300">
+              Hi — looking to refinance my primary in Austin…
+            </div>
+            <div className="ml-auto max-w-[85%] rounded-lg rounded-br-sm border border-electric-cyan/25 bg-electric-cyan/10 px-2.5 py-1.5 text-[10px] text-electric-cyan">
+              Got it. Purchase or refinance? Timeline?
+            </div>
+          </div>
+          <div className="flex gap-1">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span
+                key={i}
+                className="flex-1 rounded-sm bg-electric-cyan/40"
+                style={{ height: `${6 + ((i * 7) % 14)}px` }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+function ProjectCard({
+  project,
+  onOpen,
+  badge,
+}: {
+  project: Project;
+  onOpen: (id: string) => void;
+  badge?: string;
+}) {
+  return (
+    <article className="card group animate-fade-in flex flex-col gap-4 overflow-hidden p-0 transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_40px_rgba(0,0,0,0.35)]">
+      <div className="px-4 pt-4 sm:px-5 sm:pt-5">
+        <MotifPreview motif={project.motif} />
+      </div>
+
+      <div className="flex flex-1 flex-col gap-4 px-4 pb-5 sm:px-5 sm:pb-6">
+        <div className="flex items-start justify-between gap-3">
+          <CategoryTags categories={project.categories} />
+          {(badge || project.featured) && (
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate">
+              <Star size={11} aria-hidden="true" /> {badge ?? 'Featured'}
+            </span>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="text-lg font-semibold leading-snug text-white">{project.title}</h3>
+          <p className="text-sm leading-relaxed text-muted-slate">{project.summary}</p>
+        </div>
+
+        <div className="space-y-2 rounded-lg border border-white/[0.07] bg-navy/40 p-3">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">Problem</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-slate-300">{project.problem}</p>
+          </div>
+          <div className="border-t border-white/[0.06] pt-2">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">Outcome</p>
+            <p className="mt-0.5 inline-flex rounded-md border border-emerald-status/25 bg-emerald-status/10 px-2 py-0.5 font-mono text-[11px] text-emerald-status">
+              {project.outcome}
+            </p>
+          </div>
+        </div>
+
+        <StackPills stack={project.stack} />
+
+        <div className="mt-auto flex flex-wrap gap-2.5 pt-1">
+          <button
+            type="button"
+            onClick={() => onOpen(project.id)}
+            aria-haspopup="dialog"
+            aria-label={`Case study: ${project.title}`}
+            className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-electric-cyan px-3 py-2 text-sm font-semibold text-navy transition-opacity hover:opacity-90"
+          >
+            Case Study
+            <ArrowRight size={16} aria-hidden="true" />
+          </button>
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -458,7 +576,9 @@ export default function ProjectShowcase() {
   const [lockedHeight, setLockedHeight] = useState(0);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const visible = projects.filter((p) => matchesFilter(p, filter));
+  const flagships = projects.filter((p) => p.showcase === 'flagship');
+  const proofProjects = projects.filter((p) => p.showcase === 'proof');
+  const visible = proofProjects.filter((p) => matchesFilter(p, filter));
   const openProject = projects.find((p) => p.id === openId) ?? null;
 
   // Release the height lock when the viewport width changes (cards reflow).
@@ -496,107 +616,88 @@ export default function ProjectShowcase() {
   }, []);
 
   return (
-    <div>
-      {/* Filter pills */}
-      <div role="group" aria-label="Filter projects by category" className="flex flex-wrap gap-2.5">
-        {projectFilters.map((name) => {
-          const count = projects.filter((p) => matchesFilter(p, name)).length;
-          const active = name === filter;
-          return (
-            <button
-              key={name}
-              type="button"
-              aria-pressed={active}
-              onClick={() => selectFilter(name)}
-              className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                active
-                  ? 'border-transparent bg-electric-cyan text-navy'
-                  : 'border-white/10 bg-slate-card text-muted-slate hover:border-white/25 hover:text-white'
-              }`}
-            >
-              {name}
-              <span
-                className={`inline-flex min-w-5 items-center justify-center rounded-full px-1.5 font-mono text-[11px] leading-5 ${
-                  active ? 'bg-navy/20 text-navy' : 'bg-navy text-muted-slate'
-                }`}
-              >
-                {count}
-              </span>
-            </button>
-          );
-        })}
+    <div className="space-y-16">
+      {/* Flagship mortgage AI systems */}
+      <div>
+        <header className="max-w-2xl">
+          <p className="section-kicker">Flagship systems</p>
+          <h2 className="section-heading mt-2">Mortgage AI for brokers &amp; lending teams</h2>
+          <p className="mt-3 text-muted-slate">
+            Two production-shaped agents: document intake and 24/7 lead pre-qualification.
+          </p>
+        </header>
+        <div className="mt-8 grid content-start gap-6 md:grid-cols-2">
+          {flagships.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onOpen={setOpenId}
+              badge="Flagship"
+            />
+          ))}
+        </div>
       </div>
 
-      <p className="sr-only" aria-live="polite">
-        Showing {visible.length} {visible.length === 1 ? 'project' : 'projects'}
-        {filter === 'All' ? '' : ` in ${filter}`}
-      </p>
+      {/* Engineering proof */}
+      <div>
+        <header className="max-w-2xl">
+          <p className="section-kicker">Engineering &amp; automation proof</p>
+          <h2 className="section-heading mt-2 !text-2xl sm:!text-3xl">
+            SellerShield, Smart Page Monitor &amp; more
+          </h2>
+          <p className="mt-3 text-muted-slate">
+            Prior shipped systems that prove the same Python / React delivery muscle behind the
+            mortgage agents.
+          </p>
+        </header>
 
-      {/* Cards */}
-      <div
-        ref={gridRef}
-        style={{ minHeight: lockedHeight || undefined }}
-        className="mt-8 grid content-start gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {visible.map((project) => (
-          <article
-            key={project.id}
-            className="card group animate-fade-in flex flex-col gap-4 overflow-hidden p-0 transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_40px_rgba(0,0,0,0.35)]"
-          >
-            <div className="px-4 pt-4 sm:px-5 sm:pt-5">
-              <MotifPreview motif={project.motif} />
-            </div>
-
-            <div className="flex flex-1 flex-col gap-4 px-4 pb-5 sm:px-5 sm:pb-6">
-              <div className="flex items-start justify-between gap-3">
-                <CategoryTags categories={project.categories} />
-                {project.featured && (
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate">
-                    <Star size={11} aria-hidden="true" /> Featured
-                  </span>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold leading-snug text-white">{project.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-slate">{project.summary}</p>
-              </div>
-
-              <div className="space-y-2 rounded-lg border border-white/[0.07] bg-navy/40 p-3">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">
-                    Problem
-                  </p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-slate-300">{project.problem}</p>
-                </div>
-                <div className="border-t border-white/[0.06] pt-2">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">
-                    Outcome
-                  </p>
-                  <p className="mt-0.5 inline-flex rounded-md border border-emerald-status/25 bg-emerald-status/10 px-2 py-0.5 font-mono text-[11px] text-emerald-status">
-                    {project.outcome}
-                  </p>
-                </div>
-              </div>
-
-              <StackPills stack={project.stack} />
-
-              <div className="mt-auto flex flex-wrap gap-2.5 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setOpenId(project.id)}
-                  aria-haspopup="dialog"
-                  aria-label={`Case study: ${project.title}`}
-                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-electric-cyan px-3 py-2 text-sm font-semibold text-navy transition-opacity hover:opacity-90"
+        <div
+          role="group"
+          aria-label="Filter proof projects by category"
+          className="mt-8 flex flex-wrap gap-2.5"
+        >
+          {projectFilters.map((name) => {
+            const count = proofProjects.filter((p) => matchesFilter(p, name)).length;
+            const active = name === filter;
+            return (
+              <button
+                key={name}
+                type="button"
+                aria-pressed={active}
+                onClick={() => selectFilter(name)}
+                className={`inline-flex cursor-pointer items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                  active
+                    ? 'border-transparent bg-electric-cyan text-navy'
+                    : 'border-white/10 bg-slate-card text-muted-slate hover:border-white/25 hover:text-white'
+                }`}
+              >
+                {name}
+                <span
+                  className={`inline-flex min-w-5 items-center justify-center rounded-md px-1.5 font-mono text-[11px] leading-5 ${
+                    active ? 'bg-navy/20 text-navy' : 'bg-navy text-muted-slate'
+                  }`}
                 >
-                  Case Study
-                  <ArrowRight size={16} aria-hidden="true" />
-                </button>
-                <ProjectLinks project={project} />
-              </div>
-            </div>
-          </article>
-        ))}
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="sr-only" aria-live="polite">
+          Showing {visible.length} {visible.length === 1 ? 'project' : 'projects'}
+          {filter === 'All' ? '' : ` in ${filter}`}
+        </p>
+
+        <div
+          ref={gridRef}
+          style={{ minHeight: lockedHeight || undefined }}
+          className="mt-8 grid content-start gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {visible.map((project) => (
+            <ProjectCard key={project.id} project={project} onOpen={setOpenId} badge="Proof" />
+          ))}
+        </div>
       </div>
 
       {openProject && (
