@@ -223,9 +223,9 @@ export default function AiPortfolioAssistant() {
                 <MessageCircle size={18} aria-hidden="true" />
               </span>
               <div>
-                <h2 id={titleId} className="text-sm font-semibold text-white">
+                <p id={titleId} className="text-sm font-semibold text-white">
                   {assistantKnowledge.name}
-                </h2>
+                </p>
                 <p className="text-[11px] text-muted-slate">
                   Pre-qual · doc automation · broker ops
                 </p>

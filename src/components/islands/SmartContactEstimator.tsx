@@ -235,7 +235,7 @@ function buildBrief({
     `Contact: ${contact.trim() || '(email / WhatsApp)'}`,
     notes.trim() ? `\nNotes:\n${notes.trim()}` : '',
     '',
-    '— Sent from syedmuntazir portfolio contact form',
+    '— Sent from syedmuntazir mortgage AI brokerage inquiry form',
   ]
     .filter((line, i, arr) => !(line === '' && arr[i - 1] === ''))
     .join('\n')

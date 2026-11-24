@@ -8,15 +8,14 @@ interface Props {
   image?: string;
 }
 
-const DEFAULT_TITLE =
-  'Custom AI Agents for Mortgage Brokers & Lending Teams | Syed Muntazir';
+const DEFAULT_TITLE = 'Custom AI Agents for Mortgage Brokers | Syed Muntazir';
 const DEFAULT_DESCRIPTION =
-  'Custom AI agent development services for US mortgage brokers. Automate inbound calls with an AI voice agent, parse W-2s & bank statements, and pre-qualify borrowers 24/7.';
+  'Custom AI agent development services for US mortgage brokers. Automate inbound calls with an AI voice agent, parse W-2s & bank statements, and qualify leads.';
 
 const {
   title = DEFAULT_TITLE,
   description = DEFAULT_DESCRIPTION,
-  image = '/favicon.svg',
+  image = '/og-mortgage-ai.png',
 } = Astro.props;
 
 const siteOrigin = Astro.site ?? new URL('https://syedmuntazir.dev');
@@ -103,12 +102,10 @@ const jsonLd = {
       applicationCategory: 'BusinessApplication',
       operatingSystem: 'Web',
       description:
-        'Best AI lending agent tooling for mortgage brokers — voice pre-qual, document parsing, and LOS/CRM sync as custom builds.',
+        'Best AI lending agent for mortgage brokers — custom voice pre-qual, W-2 & bank statement parsing, and LOS/CRM sync as scoped brokerage builds.',
       offers: {
         '@type': 'Offer',
         availability: 'https://schema.org/InStock',
-        price: '0',
-        priceCurrency: 'USD',
         description: 'Custom scoped builds — contact for a brokerage brief',
       },
       creator: { '@id': `${siteOrigin.href}#person` },
@@ -157,6 +154,8 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={imageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Custom AI agents for mortgage brokers by Syed Muntazir" />
     <meta property="og:locale" content="en_US" />
 

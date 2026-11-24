@@ -622,11 +622,11 @@ export default function ProjectShowcase() {
         <header className="max-w-2xl">
           <p className="section-kicker">Flagship systems</p>
           <h2 className="section-heading mt-2">
-            Flagship AI agents for mortgage brokers &amp; lending teams
+            Best AI lending agent for mortgage brokers — flagship systems
           </h2>
           <p className="mt-3 text-muted-slate">
-            Two production-shaped agents: document intake and 24/7 lead pre-qualification — examples of
-            custom AI agent development services you can scope for your brokerage.
+            LoanDoc AI and BrokerVoice AI: production-shaped agents for document intake and an AI voice
+            agent to answer calls for mortgage brokers — scoped as custom AI agent development services.
           </p>
         </header>
         <div className="mt-8 grid content-start gap-6 md:grid-cols-2">
@@ -646,11 +646,11 @@ export default function ProjectShowcase() {
         <header className="max-w-2xl">
           <p className="section-kicker">Engineering &amp; automation proof</p>
           <h2 className="section-heading mt-2 !text-2xl sm:!text-3xl">
-            SellerShield, Smart Page Monitor &amp; more
+            Custom agentic AI development services — engineering proof
           </h2>
           <p className="mt-3 text-muted-slate">
-            Prior shipped systems that prove the same Python / React delivery muscle behind the
-            mortgage agents.
+            SellerShield, Smart Page Monitor, PakGovJobs, and Image→PDF — proof of the same Python /
+            React delivery muscle behind mortgage AI agents.
           </p>
         </header>
 

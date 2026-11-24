@@ -20,6 +20,8 @@ import AiPortfolioAssistant from '../components/islands/AiPortfolioAssistant';
     <Services />
 
     <section id="projects" class="section-padding border-t border-white/[0.08]">
+      <!-- Alias for crawlers / bookmarks that expect #systems (navbar uses #projects) -->
+      <div id="systems" class="sr-only" aria-hidden="true">Systems</div>
       <div class="container-page">
         <ProjectShowcase client:visible />
       </div>
@@ -29,9 +31,9 @@ import AiPortfolioAssistant from '../components/islands/AiPortfolioAssistant';
       <div class="container-page">
         <header class="max-w-2xl">
           <p class="section-kicker">Live systems</p>
-          <h2 class="section-heading mt-2">Interactive pipeline simulator</h2>
+          <h2 class="section-heading mt-2">Mortgage automation pipeline simulator</h2>
           <p class="mt-3 text-muted-slate">
-            Run engineering pipeline demos — step logs and sample JSON — the same delivery style behind mortgage agents.
+            Run demos of borrower pre-qual, W-2/DTI extraction, and missing-doc follow-up — step logs and sample JSON.
           </p>
         </header>
         <div class="mt-10">
