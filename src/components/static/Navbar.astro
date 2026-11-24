@@ -8,7 +8,7 @@ const brandText = profile.brand.slice(0, -1);
 const brandAccent = profile.brand.slice(-1);
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/[0.08] bg-navy/90 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-white/[0.08] bg-[#090d16]/85 shadow-[inset_0_-1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl">
   <nav class="container-page flex h-16 min-w-0 items-center justify-between gap-3" aria-label="Primary">
     <a
       href="#"
@@ -18,13 +18,13 @@ const brandAccent = profile.brand.slice(-1);
       {brandText}<span class="text-electric-cyan">{brandAccent}</span>
     </a>
 
-    <ul class="hidden min-w-0 items-center gap-6 lg:flex xl:gap-8">
+    <ul class="hidden min-w-0 items-center gap-1 lg:flex">
       {
         navLinks.map((link) => (
           <li>
             <a
               href={link.href}
-              class="text-sm font-medium text-muted-slate transition-colors hover:text-white"
+              class="rounded-md px-3 py-1.5 text-sm font-medium text-muted-slate transition-colors hover:bg-white/[0.04] hover:text-white"
             >
               {link.label}
             </a>
@@ -43,7 +43,7 @@ const brandAccent = profile.brand.slice(-1);
                   href={social.url}
                   target={social.id === 'email' ? undefined : '_blank'}
                   rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                  class="inline-flex size-9 items-center justify-center rounded-lg border border-white/10 text-muted-slate transition-colors hover:border-white/25 hover:text-white"
+                  class="inline-flex size-9 items-center justify-center rounded-md border border-white/[0.09] text-muted-slate transition-colors hover:border-white/25 hover:text-white"
                   aria-label={`${social.label}${social.handle ? ` (${social.handle})` : ''}`}
                 >
                   <SocialIcon id={social.id} size={16} />
@@ -54,12 +54,12 @@ const brandAccent = profile.brand.slice(-1);
         )
       }
 
-      <a href="#contact" class="btn-primary !px-3 !py-2 text-sm sm:!px-4">Contact</a>
+      <a href="#contact" class="btn-primary !px-3 !py-2 text-sm sm:!px-4">Start a Project</a>
 
       <button
         id="menu-toggle"
         type="button"
-        class="group inline-flex size-10 items-center justify-center rounded-lg border border-white/10 text-white transition-colors hover:border-white/25 lg:hidden"
+        class="group inline-flex size-10 items-center justify-center rounded-md border border-white/[0.09] text-white transition-colors hover:border-white/25 lg:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Toggle navigation menu"

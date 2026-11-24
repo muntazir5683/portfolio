@@ -7,8 +7,27 @@ import {
   FileText,
   Mail,
   Map,
+  Rocket,
   Sparkles,
 } from 'lucide-react';
+
+const HOW_WE_WORK = [
+  {
+    step: '1',
+    title: 'Scope & Architecture',
+    detail: 'Clarify goals, constraints, and the smallest shippable system.',
+  },
+  {
+    step: '2',
+    title: 'Rapid Build & Demo',
+    detail: 'Iterate fast with working demos you can click through.',
+  },
+  {
+    step: '3',
+    title: 'Deploy & Handoff',
+    detail: 'Ship to production with docs, access, and clean ownership.',
+  },
+] as const;
 import {
   deliverableOptions,
   engagementTypes,
@@ -292,7 +311,36 @@ export default function SmartContactEstimator() {
   }, [brief]);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-5">
+    <div className="space-y-8">
+      {/* How We Work */}
+      <div className="card overflow-hidden p-0">
+        <div className="flex items-center gap-2 border-b border-white/[0.08] px-4 py-3 sm:px-5">
+          <Rocket size={14} className="text-electric-cyan" aria-hidden="true" />
+          <p className="text-xs font-medium tracking-wide text-muted-slate">How We Work</p>
+        </div>
+        <ol className="grid gap-0 sm:grid-cols-3">
+          {HOW_WE_WORK.map((item, i) => (
+            <li
+              key={item.step}
+              className={`flex gap-3 p-4 sm:p-5 ${
+                i < HOW_WE_WORK.length - 1 ? 'border-b border-white/[0.08] sm:border-b-0 sm:border-r' : ''
+              }`}
+            >
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-white/12 font-mono text-xs text-electric-cyan">
+                {item.step}
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm font-semibold text-white">{item.title}</span>
+                <span className="mt-1 block text-xs leading-relaxed text-muted-slate">
+                  {item.detail}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-5">
       {/* ---------------- Builder ---------------- */}
       <div className="space-y-7 lg:col-span-3">
         {/* Engagement */}
@@ -529,6 +577,7 @@ export default function SmartContactEstimator() {
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

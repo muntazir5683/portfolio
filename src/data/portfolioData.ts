@@ -88,6 +88,13 @@ export interface ProjectCaseStudy {
   highlights: string[];
 }
 
+export type ProjectMotif =
+  | 'job-board'
+  | 'risk-meter'
+  | 'chrome-tabs'
+  | 'pdf-sorter'
+  | 'urdu-canvas';
+
 export interface Project {
   id: string;
   title: string;
@@ -97,6 +104,12 @@ export interface Project {
   description: string;
   /** One-line problem-solving summary shown on the project card. */
   summary: string;
+  /** Short business problem line for card UI. */
+  problem: string;
+  /** Measurable / concrete outcome badge on the card. */
+  outcome: string;
+  /** CSS/SVG architectural preview motif for the card header. */
+  motif: ProjectMotif;
   stack: string[];
   featured: boolean;
   /** Only rendered when a non-empty string — never use '#' placeholders. */
@@ -130,6 +143,8 @@ export interface WorkflowPreset {
   title: string;
   tagline: string;
   description: string;
+  /** Business ROI / time-saved badge for the selector card. */
+  roi: string;
   /** Name of the lucide-react icon the UI should render. */
   icon: 'FileSearch' | 'ShieldCheck' | 'MessageSquare' | 'Pill';
   input: { label: string; value: string };
@@ -354,6 +369,9 @@ export const projects: Project[] = [
       'Aggregator for Pakistani government jobs. Scrapes several portals, normalizes dates, and splits active listings from expired ones.',
     summary:
       'One feed of government jobs with expired listings filtered out, instead of hopping between half a dozen portals.',
+    problem: 'Job seekers jump across portals with inconsistent dates and expired posts still listed.',
+    outcome: 'Single cleaned feed · active vs expired',
+    motif: 'job-board',
     stack: ['Python', 'FastAPI', 'Web Scraping', 'React'],
     featured: true,
     githubUrl: 'https://github.com/muntazir5683/pakgovtjobs',
@@ -378,6 +396,9 @@ export const projects: Project[] = [
       'Checks a store URL (web or social) against basic trust signals and returns a risk score with the reasons behind it.',
     summary:
       'Paste a store link, get a risk score and the signals that drove it — useful before you pay an unknown seller.',
+    problem: 'Buyers guess whether Instagram / small-web sellers are legit before paying.',
+    outcome: 'Risk score + explainable signals',
+    motif: 'risk-meter',
     stack: ['React', 'Vite', 'Tailwind CSS', 'Python FastAPI'],
     featured: true,
     caseStudy: {
@@ -401,6 +422,9 @@ export const projects: Project[] = [
       'Chrome extension that reloads selected tabs on a timer, highlights DOM changes, and nudges idle pages so sessions do not drop.',
     summary:
       'Keeps a tab fresh every two minutes and highlights what changed so you do not miss an update.',
+    problem: 'Manual refresh on listings/dashboards misses updates and idle tabs time out.',
+    outcome: 'Timed reload + DOM change highlights',
+    motif: 'chrome-tabs',
     stack: ['JavaScript', 'Chrome Extension APIs', 'DOM Mutation'],
     featured: true,
     caseStudy: {
@@ -424,6 +448,9 @@ export const projects: Project[] = [
       'Browser tool that builds a PDF from selected images without uploading anything. Order and resolution stay as the user chose them.',
     summary:
       'Convert images to PDF in the browser — no account, no upload, pages stay in the order you picked.',
+    problem: 'Online converters upload private docs and often reorder or crush quality.',
+    outcome: 'Local PDF · selection order preserved',
+    motif: 'pdf-sorter',
     stack: ['JavaScript', 'Client-Side PDF Generation', 'Responsive UI'],
     featured: true,
     caseStudy: {
@@ -447,6 +474,9 @@ export const projects: Project[] = [
       'In-browser canvas editor for Urdu event posters — text, layout, and export without installing desktop design software.',
     summary:
       'A small canvas editor aimed at Urdu typography and formal event posters, runnable in the browser.',
+    problem: 'Formal Urdu posters need heavy desktop software; web editors break RTL.',
+    outcome: 'Browser canvas · Urdu / RTL first-class',
+    motif: 'urdu-canvas',
     stack: ['React', 'HTML5 Canvas', 'Tailwind CSS'],
     featured: true,
     caseStudy: {
@@ -475,6 +505,7 @@ export const workflowPresets: WorkflowPreset[] = [
     tagline: 'HTML fetch → date normalize → expiry filter → DB upsert',
     description:
       'Pulls job pages from target portals, normalizes dates and department tags, drops expired rows, and upserts what is still open.',
+    roi: 'Saves ~12 hrs/week of manual sorting',
     icon: 'FileSearch',
     input: {
       label: 'Target portals',
@@ -569,6 +600,7 @@ export const workflowPresets: WorkflowPreset[] = [
     tagline: 'Domain/handle → red flags → reviews → trust score',
     description:
       'Inspects a store URL or social handle, checks contact/payment red flags and review consistency, then returns a weighted trust score.',
+    roi: 'Cuts risky purchases before payment',
     icon: 'ShieldCheck',
     input: {
       label: 'Store URL / handle',
@@ -644,6 +676,7 @@ export const workflowPresets: WorkflowPreset[] = [
     tagline: 'Voice/text in → STT + intent → assign agent',
     description:
       'Takes an inbound WhatsApp voice or text lead, transcribes if needed, pulls budget/sector/intent, and routes it to a sales agent.',
+    roi: 'Routes leads in seconds, not hours',
     icon: 'MessageSquare',
     input: {
       label: 'Inbound WhatsApp',
@@ -723,6 +756,7 @@ export const workflowPresets: WorkflowPreset[] = [
     tagline: 'Inventory sheet → days-to-expiry → alerts + reorder',
     description:
       'Reads the daily inventory export, flags batches under 30 / 90 days to expiry, and emails a vendor reorder summary.',
+    roi: 'Flags expiry risk before stock is wasted',
     icon: 'Pill',
     input: {
       label: 'Inventory file',

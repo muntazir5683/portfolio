@@ -29,6 +29,7 @@ import {
   type Project,
   type ProjectCategory,
   type ProjectFilter,
+  type ProjectMotif,
 } from '../../data/portfolioData';
 
 /* ------------------------------------------------------------------ */
@@ -131,6 +132,146 @@ function StackPills({ stack }: { stack: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Architectural CSS/SVG card previews                                 */
+/* ------------------------------------------------------------------ */
+
+function MotifPreview({ motif }: { motif: ProjectMotif }) {
+  return (
+    <div
+      className="relative h-28 overflow-hidden rounded-lg border border-white/[0.08] bg-[#060a12]"
+      aria-hidden="true"
+    >
+      <div
+        className="absolute inset-0 opacity-40"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle, rgb(255 255 255 / 0.08) 1px, transparent 1px)',
+          backgroundSize: '16px 16px',
+        }}
+      />
+      {motif === 'job-board' && (
+        <div className="relative flex h-full flex-col gap-1.5 p-3">
+          <div className="flex gap-1.5">
+            <span className="h-2 w-14 rounded-sm bg-electric-cyan/50" />
+            <span className="h-2 w-8 rounded-sm bg-white/15" />
+          </div>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 rounded border border-white/10 bg-white/[0.03] px-2 py-1.5"
+            >
+              <span className="size-4 shrink-0 rounded bg-sky-400/30" />
+              <span className="h-1.5 flex-1 rounded-sm bg-white/20" />
+              <span
+                className={`h-1.5 w-8 rounded-sm ${i === 2 ? 'bg-amber-400/40' : 'bg-emerald-status/40'}`}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      {motif === 'risk-meter' && (
+        <div className="relative flex h-full items-center justify-center gap-4 p-3">
+          <svg viewBox="0 0 100 60" className="h-14 w-24">
+            <path
+              d="M10 50 A40 40 0 0 1 90 50"
+              fill="none"
+              stroke="rgb(255 255 255 / 0.12)"
+              strokeWidth="8"
+              strokeLinecap="round"
+            />
+            <path
+              d="M10 50 A40 40 0 0 1 42 14"
+              fill="none"
+              stroke="#f87171"
+              strokeWidth="8"
+              strokeLinecap="round"
+            />
+            <line
+              x1="50"
+              y1="50"
+              x2="28"
+              y2="22"
+              stroke="#f87171"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            <circle cx="50" cy="50" r="3.5" fill="#94a3b8" />
+          </svg>
+          <div className="space-y-1">
+            <p className="font-mono text-2xl font-semibold text-red-400">28</p>
+            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">
+              risk · high
+            </p>
+          </div>
+        </div>
+      )}
+      {motif === 'chrome-tabs' && (
+        <div className="relative flex h-full flex-col p-3 pt-2">
+          <div className="flex items-end gap-1">
+            {['Monitor', 'Listings', 'CRM'].map((label, i) => (
+              <div
+                key={label}
+                className={`flex items-center gap-1.5 rounded-t border border-b-0 px-2.5 py-1.5 text-[10px] ${
+                  i === 1
+                    ? 'border-white/15 bg-[#0c1220] text-white'
+                    : 'border-transparent bg-white/[0.04] text-muted-slate'
+                }`}
+              >
+                <span
+                  className={`size-1.5 rounded-full ${i === 1 ? 'bg-emerald-status' : 'bg-white/20'}`}
+                />
+                {label}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-1 items-center justify-center rounded-b border border-white/10 bg-navy/40">
+            <span className="rounded border border-electric-cyan/30 bg-electric-cyan/10 px-2 py-1 font-mono text-[10px] text-electric-cyan">
+              refresh · 2:00
+            </span>
+          </div>
+        </div>
+      )}
+      {motif === 'pdf-sorter' && (
+        <div className="relative flex h-full items-end justify-center gap-2 p-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="flex w-11 flex-col overflow-hidden rounded border border-white/12 bg-white/[0.04]"
+              style={{ height: `${52 + i * 6}px`, transform: `translateY(${(3 - i) * 2}px)` }}
+            >
+              <div className="h-2 bg-red-400/50" />
+              <div className="flex flex-1 flex-col gap-1 p-1.5">
+                <span className="h-1 rounded-sm bg-white/20" />
+                <span className="h-1 w-2/3 rounded-sm bg-white/12" />
+              </div>
+              <span className="pb-1 text-center font-mono text-[9px] text-muted-slate">{i + 1}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {motif === 'urdu-canvas' && (
+        <div className="relative flex h-full items-center justify-center p-3">
+          <div
+            className="absolute inset-3 rounded border border-dashed border-white/15"
+            style={{
+              backgroundImage:
+                'linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)',
+              backgroundSize: '12px 12px',
+            }}
+          />
+          <div className="relative rounded border border-white/15 bg-navy/80 px-4 py-2 text-center">
+            <p className="font-serif text-lg leading-none text-white/90" dir="rtl">
+              اردو
+            </p>
+            <p className="mt-1 font-mono text-[9px] text-muted-slate">canvas · RTL</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -400,36 +541,59 @@ export default function ProjectShowcase() {
         {visible.map((project) => (
           <article
             key={project.id}
-            className="card card-hover animate-fade-in flex flex-col gap-4 p-5 sm:p-6"
+            className="card group animate-fade-in flex flex-col gap-4 overflow-hidden p-0 transition-all duration-200 hover:-translate-y-1 hover:border-white/20 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_40px_rgba(0,0,0,0.35)]"
           >
-            <div className="flex items-start justify-between gap-3">
-              <CategoryTags categories={project.categories} />
-              {project.featured && (
-                <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate">
-                  <Star size={11} aria-hidden="true" /> Featured
-                </span>
-              )}
+            <div className="px-4 pt-4 sm:px-5 sm:pt-5">
+              <MotifPreview motif={project.motif} />
             </div>
 
-            <div className="space-y-2">
-              <h3 className="text-lg font-semibold leading-snug text-white">{project.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-slate">{project.summary}</p>
-            </div>
+            <div className="flex flex-1 flex-col gap-4 px-4 pb-5 sm:px-5 sm:pb-6">
+              <div className="flex items-start justify-between gap-3">
+                <CategoryTags categories={project.categories} />
+                {project.featured && (
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-md border border-white/10 px-2 py-0.5 text-[11px] text-muted-slate">
+                    <Star size={11} aria-hidden="true" /> Featured
+                  </span>
+                )}
+              </div>
 
-            <StackPills stack={project.stack} />
+              <div className="space-y-2">
+                <h3 className="text-lg font-semibold leading-snug text-white">{project.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-slate">{project.summary}</p>
+              </div>
 
-            <div className="mt-auto flex flex-wrap gap-2.5 pt-2">
-              <button
-                type="button"
-                onClick={() => setOpenId(project.id)}
-                aria-haspopup="dialog"
-                aria-label={`Case study: ${project.title}`}
-                className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-electric-cyan px-3 py-2 text-sm font-semibold text-navy transition-opacity hover:opacity-90"
-              >
-                Case Study
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-              <ProjectLinks project={project} />
+              <div className="space-y-2 rounded-lg border border-white/[0.07] bg-navy/40 p-3">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">
+                    Problem
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-slate-300">{project.problem}</p>
+                </div>
+                <div className="border-t border-white/[0.06] pt-2">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-slate">
+                    Outcome
+                  </p>
+                  <p className="mt-0.5 inline-flex rounded-md border border-emerald-status/25 bg-emerald-status/10 px-2 py-0.5 font-mono text-[11px] text-emerald-status">
+                    {project.outcome}
+                  </p>
+                </div>
+              </div>
+
+              <StackPills stack={project.stack} />
+
+              <div className="mt-auto flex flex-wrap gap-2.5 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setOpenId(project.id)}
+                  aria-haspopup="dialog"
+                  aria-label={`Case study: ${project.title}`}
+                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-electric-cyan px-3 py-2 text-sm font-semibold text-navy transition-opacity hover:opacity-90"
+                >
+                  Case Study
+                  <ArrowRight size={16} aria-hidden="true" />
+                </button>
+                <ProjectLinks project={project} />
+              </div>
             </div>
           </article>
         ))}

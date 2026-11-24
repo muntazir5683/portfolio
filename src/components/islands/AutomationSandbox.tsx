@@ -123,7 +123,6 @@ async function copyText(text: string): Promise<boolean> {
     await navigator.clipboard.writeText(text);
     return true;
   } catch {
-    // Fallback for non-secure contexts / older browsers
     try {
       const ta = document.createElement('textarea');
       ta.value = text;
@@ -180,7 +179,6 @@ export default function AutomationSandbox() {
     [clearTimers],
   );
 
-  // Keep the terminal pinned to the newest line (scrolls the panel only, never the page).
   useEffect(() => {
     const el = terminalRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -300,7 +298,6 @@ export default function AutomationSandbox() {
 
   if (!preset) return null;
 
-  /* ---- derived values ---- */
   const totalLatency = preset.steps.reduce((sum, s) => sum + s.latencyMs, 0);
   const progress = status === 'done' ? 1 : Math.min(elapsed / TARGET_MS, 1);
   const liveLatency = Math.round(progress * totalLatency);
@@ -311,292 +308,290 @@ export default function AutomationSandbox() {
   const jsonText = JSON.stringify(preset.output, null, 2);
 
   return (
-    <div className="space-y-6">
-      {/* ---------------- Workflow selector ---------------- */}
-      <div
-        role="tablist"
-        aria-label="Automation workflows"
-        className="grid gap-3 sm:grid-cols-2"
-        onKeyDown={handleTabKeys}
-      >
-        {workflowPresets.map((p, i) => {
-          const Icon = presetIcons[p.icon];
-          const selected = p.id === preset.id;
-          return (
-            <button
-              key={p.id}
-              ref={(el) => {
-                tabRefs.current[i] = el;
-              }}
-              id={`tab-${p.id}`}
-              role="tab"
-              type="button"
-              aria-selected={selected}
-              aria-controls="sandbox-panel"
-              tabIndex={selected ? 0 : -1}
-              onClick={() => selectPreset(p.id)}
-              className={`card card-hover flex min-w-0 cursor-pointer flex-col gap-2 p-4 text-left ${
-                selected ? 'border-white/25! bg-white/[0.04]' : ''
-              }`}
-            >
-              <span className="flex min-w-0 items-center gap-3">
-                <span
-                  className={`inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-white/10 ${
-                    selected ? 'text-white' : 'text-muted-slate'
-                  }`}
-                >
-                  <Icon size={18} aria-hidden="true" />
+    <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
+      {/* -------- Left: workflow selector + ROI -------- */}
+      <div className="space-y-4 lg:col-span-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-muted-slate">
+            Live system simulator
+          </p>
+          <span className="tag-mono !text-[10px]">{workflowPresets.length} pipelines</span>
+        </div>
+
+        <div
+          role="tablist"
+          aria-label="Automation workflows"
+          className="flex flex-col gap-3"
+          onKeyDown={handleTabKeys}
+        >
+          {workflowPresets.map((p, i) => {
+            const Icon = presetIcons[p.icon];
+            const selected = p.id === preset.id;
+            return (
+              <button
+                key={p.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                id={`tab-${p.id}`}
+                role="tab"
+                type="button"
+                aria-selected={selected}
+                aria-controls="sandbox-panel"
+                tabIndex={selected ? 0 : -1}
+                onClick={() => selectPreset(p.id)}
+                className={`card flex min-w-0 cursor-pointer flex-col gap-2.5 p-4 text-left transition-all ${
+                  selected
+                    ? 'border-white/25! bg-white/[0.05] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]'
+                    : 'hover:-translate-y-0.5 hover:border-white/18'
+                }`}
+              >
+                <span className="flex min-w-0 items-start gap-3">
+                  <span
+                    className={`inline-flex size-9 shrink-0 items-center justify-center rounded-md border border-white/10 ${
+                      selected ? 'bg-white/[0.06] text-electric-cyan' : 'text-muted-slate'
+                    }`}
+                  >
+                    <Icon size={18} aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block break-words text-sm font-semibold leading-snug text-white">
+                      {p.title}
+                    </span>
+                    <span className="mt-1 block break-words font-mono text-[11px] text-muted-slate">
+                      {p.tagline}
+                    </span>
+                  </span>
                 </span>
-                <span className="min-w-0 break-words text-sm font-semibold leading-snug text-white">
-                  {p.title}
+                <span className="inline-flex w-fit items-center rounded-md border border-emerald-status/25 bg-emerald-status/10 px-2 py-1 font-mono text-[11px] text-emerald-status">
+                  {p.roi}
                 </span>
-              </span>
-              <span className="break-words font-mono text-xs text-muted-slate">{p.tagline}</span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* ---------------- Selected workflow ---------------- */}
+      {/* -------- Right: macOS simulator window -------- */}
       <div
         id="sandbox-panel"
         role="tabpanel"
         aria-labelledby={`tab-${preset.id}`}
-        className="card p-5 sm:p-6"
+        className="overflow-hidden rounded-xl border border-white/[0.09] bg-[#0c1220] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] lg:col-span-8"
       >
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="min-w-0 flex-1 space-y-4">
-            <p className="text-sm leading-relaxed text-muted-slate sm:text-base">
-              {preset.description}
-            </p>
+        {/* Chrome */}
+        <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="size-2.5 rounded-full bg-[#ff5f57]/80" />
+            <span className="size-2.5 rounded-full bg-[#febc2e]/80" />
+            <span className="size-2.5 rounded-full bg-[#28c840]/80" />
+            <span className="ml-2 hidden font-mono text-[11px] text-muted-slate sm:inline">
+              simulator — {preset.id}.run
+            </span>
+          </div>
+          <span
+            className={`font-mono text-[11px] ${
+              isRunning ? 'text-electric-cyan' : status === 'done' ? 'text-emerald-status' : 'text-muted-slate'
+            }`}
+          >
+            {isRunning ? '● running' : status === 'done' ? '● complete' : '○ idle'}
+          </span>
+        </div>
 
-            <div>
-              <p className="mb-1.5 font-mono text-xs uppercase tracking-wider text-muted-slate">
-                Input payload · {preset.input.label}
-              </p>
-              <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-slate-border bg-[#020C1B] px-4 py-3 font-mono text-xs text-emerald-status sm:text-sm">
+        <div className="space-y-5 p-4 sm:p-5">
+          {/* Header + actions */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0 space-y-2">
+              <p className="text-sm leading-relaxed text-muted-slate">{preset.description}</p>
+              <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-white/[0.08] bg-navy/70 px-3 py-2 font-mono text-[11px] text-emerald-status sm:text-xs">
                 <span className="select-none text-muted-slate">$ </span>
                 {preset.input.value}
               </pre>
+              <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
+                {preset.stack.map((tech) => (
+                  <li key={tech} className="tag-mono">
+                    {tech}
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <ul className="flex flex-wrap gap-2" aria-label="Tech stack">
-              {preset.stack.map((tech) => (
-                <li key={tech} className="tag-mono">
-                  {tech}
-                </li>
-              ))}
-            </ul>
+            <div className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                onClick={run}
+                disabled={isRunning}
+                className="btn-primary cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:transform-none"
+              >
+                {isRunning ? (
+                  <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                ) : (
+                  <Play size={16} aria-hidden="true" />
+                )}
+                {isRunning ? 'Running…' : status === 'done' ? 'Run again' : 'Run demo'}
+              </button>
+              <button
+                type="button"
+                onClick={reset}
+                disabled={status === 'idle'}
+                className="btn-glass cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <RotateCcw size={16} aria-hidden="true" />
+                Reset
+              </button>
+            </div>
           </div>
 
-          <div className="flex shrink-0 flex-wrap gap-3 lg:flex-col lg:items-stretch">
-            <button
-              type="button"
-              onClick={run}
-              disabled={isRunning}
-              className="btn-primary cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:transform-none"
-            >
-              {isRunning ? (
-                <Loader2 size={18} className="animate-spin" aria-hidden="true" />
-              ) : (
-                <Play size={18} aria-hidden="true" />
-              )}
-              {isRunning ? 'Running…' : status === 'done' ? 'Run again' : 'Run demo'}
-            </button>
-            <button
-              type="button"
-              onClick={reset}
-              disabled={status === 'idle'}
-              className="btn-outline cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:transform-none"
-            >
-              <RotateCcw size={18} aria-hidden="true" />
-              Reset
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* ---------------- Execution: steps + terminal ---------------- */}
-      <div className="grid gap-6 lg:grid-cols-5">
-        {/* Pipeline steps + metrics */}
-        <div className="card space-y-5 p-5 lg:col-span-2">
-          <div className="flex items-center justify-between">
-            <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
-              <Cpu size={16} className="text-muted-slate" aria-hidden="true" />
-              Steps
-            </h3>
-            <span className="font-mono text-xs text-muted-slate">
-              {completedSteps}/{preset.steps.length} steps
-            </span>
-          </div>
-
-          <div
-            className="h-1 overflow-hidden rounded-full bg-navy"
-            role="progressbar"
-            aria-label="Pipeline progress"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={Math.round(progress * 100)}
-          >
+          {/* Progress */}
+          <div>
+            <div className="mb-2 flex items-center justify-between text-[11px] text-muted-slate">
+              <span className="flex items-center gap-1.5 font-mono uppercase tracking-wider">
+                <Cpu size={12} aria-hidden="true" /> Pipeline
+              </span>
+              <span className="font-mono">
+                {completedSteps}/{preset.steps.length} · {status === 'idle' ? '—' : `${liveLatency} ms`}
+              </span>
+            </div>
             <div
-              className="h-full w-full origin-left rounded-full bg-white/70"
-              style={{ transform: `scaleX(${progress})` }}
-            />
+              className="h-1.5 overflow-hidden rounded-full bg-navy"
+              role="progressbar"
+              aria-label="Pipeline progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress * 100)}
+            >
+              <div
+                className="h-full origin-left rounded-full bg-gradient-to-r from-electric-cyan/80 to-emerald-status/80 transition-transform duration-100"
+                style={{ transform: `scaleX(${progress})` }}
+              />
+            </div>
           </div>
 
-          <ol className="space-y-2">
+          {/* Animated pipeline nodes */}
+          <ol className="flex flex-wrap gap-2" aria-label="Pipeline nodes">
             {preset.steps.map((step, i) => {
               const state = stepStates[i] ?? 'idle';
               return (
                 <li
                   key={step.id}
                   aria-current={state === 'running' ? 'step' : undefined}
-                  className={`flex items-start gap-3 rounded-md border p-3 transition-colors duration-300 ${
+                  className={`flex min-w-0 flex-1 basis-[calc(50%-0.25rem)] items-center gap-2 rounded-lg border px-2.5 py-2 transition-all duration-300 sm:basis-0 ${
                     state === 'running'
-                      ? 'border-white/20 bg-white/[0.04]'
+                      ? 'border-electric-cyan/40 bg-electric-cyan/10 shadow-[0_0_20px_rgba(56,189,248,0.12)]'
                       : state === 'done'
-                        ? 'border-white/10 bg-white/[0.02]'
-                        : 'border-white/[0.06] bg-navy/40'
+                        ? 'border-emerald-status/30 bg-emerald-status/5'
+                        : 'border-white/[0.07] bg-navy/50'
                   }`}
                 >
-                  <span className="mt-0.5 shrink-0">
+                  <span className="shrink-0">
                     {state === 'done' ? (
-                      <CheckCircle2 size={18} className="text-emerald-status" aria-label="Completed" />
+                      <CheckCircle2 size={14} className="text-emerald-status" aria-hidden="true" />
                     ) : state === 'running' ? (
-                      <Loader2
-                        size={18}
-                        className="animate-spin text-white"
-                        aria-label="Running"
-                      />
+                      <Loader2 size={14} className="animate-spin text-electric-cyan" aria-hidden="true" />
                     ) : (
-                      <span
-                        className="flex size-[18px] items-center justify-center rounded-full border border-white/15 font-mono text-[10px] text-muted-slate"
-                        aria-label="Idle"
-                      >
+                      <span className="flex size-3.5 items-center justify-center rounded-full border border-white/15 font-mono text-[9px] text-muted-slate">
                         {i + 1}
                       </span>
                     )}
                   </span>
-                  <span className="min-w-0 flex-1">
-                    <span
-                      className={`block text-sm font-medium ${state === 'idle' ? 'text-muted-slate' : 'text-white'}`}
-                    >
-                      {step.label}
-                    </span>
-                    <span className="block text-xs text-muted-slate">{step.description}</span>
-                  </span>
                   <span
-                    className={`shrink-0 font-mono text-xs tabular-nums ${state === 'done' ? 'text-emerald-status' : 'text-muted-slate/60'}`}
+                    className={`min-w-0 truncate text-[11px] font-medium sm:text-xs ${
+                      state === 'idle' ? 'text-muted-slate' : 'text-white'
+                    }`}
                   >
-                    {state === 'done' ? `${step.latencyMs} ms` : '— ms'}
+                    {step.label}
                   </span>
                 </li>
               );
             })}
           </ol>
 
-          {/* Live metrics */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg border border-slate-border bg-navy/60 p-3">
-              <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-slate">
-                <Timer size={12} aria-hidden="true" /> Latency
-              </p>
-              <p className="mt-1 font-mono text-xl font-semibold tabular-nums text-white">
-                {status === 'idle' ? '—' : liveLatency}
-                <span className="ml-1 text-xs font-normal text-muted-slate">ms</span>
-              </p>
+          {/* Metrics + terminal */}
+          <div className="grid gap-4 sm:grid-cols-5">
+            <div className="grid grid-cols-2 gap-2 sm:col-span-2 sm:grid-cols-1 sm:gap-3">
+              <div className="rounded-lg border border-white/[0.08] bg-navy/60 p-3">
+                <p className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-slate">
+                  <Timer size={11} aria-hidden="true" /> Latency
+                </p>
+                <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-white">
+                  {status === 'idle' ? '—' : liveLatency}
+                  <span className="ml-1 text-[10px] font-normal text-muted-slate">ms</span>
+                </p>
+              </div>
+              <div className="rounded-lg border border-white/[0.08] bg-navy/60 p-3">
+                <p className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-slate">
+                  <Gauge size={11} aria-hidden="true" /> {preset.metric.label}
+                </p>
+                <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-white">
+                  {liveMetric ?? '—'}
+                  {liveMetric !== null && (
+                    <span className="ml-0.5 text-[10px] font-normal text-muted-slate">%</span>
+                  )}
+                </p>
+              </div>
             </div>
-            <div className="rounded-lg border border-slate-border bg-navy/60 p-3">
-              <p className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-slate">
-                <Gauge size={12} aria-hidden="true" /> {preset.metric.label}
-              </p>
-              <p className="mt-1 font-mono text-xl font-semibold tabular-nums text-white">
-                {liveMetric ?? '—'}
-                {liveMetric !== null && (
-                  <span className="ml-0.5 text-xs font-normal text-muted-slate">%</span>
+
+            <div className="overflow-hidden rounded-lg border border-white/[0.08] bg-[#060a12] sm:col-span-3">
+              <div className="flex items-center gap-2 border-b border-white/[0.06] px-3 py-1.5">
+                <Terminal size={11} className="text-muted-slate" aria-hidden="true" />
+                <span className="font-mono text-[10px] text-muted-slate">pipeline.log</span>
+              </div>
+              <div
+                ref={terminalRef}
+                role="log"
+                aria-live="off"
+                aria-label="Pipeline execution logs"
+                className="h-44 overflow-y-auto p-3 font-mono text-[11px] leading-relaxed sm:h-52 sm:text-xs"
+              >
+                {logs.length === 0 ? (
+                  <p className="text-muted-slate">
+                    <span className="text-white/40">$</span> awaiting run…
+                  </p>
+                ) : (
+                  logs.map((log) => {
+                    const style = logStyles[log.level];
+                    return (
+                      <div key={log.id} className="flex gap-2 break-words">
+                        <span className="shrink-0 text-muted-slate/50">{log.time}</span>
+                        <span className={`shrink-0 ${style.text}`}>[{style.tag}]</span>
+                        <span className={`min-w-0 ${style.text}`}>{log.message}</span>
+                      </div>
+                    );
+                  })
                 )}
-              </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Terminal */}
-        <div className="overflow-hidden rounded-xl border border-slate-border bg-[#020C1B] lg:col-span-3">
-          <div className="flex items-center justify-between border-b border-slate-border px-4 py-2.5">
-            <div className="flex items-center gap-2">
-              <span className="size-2.5 rounded-full bg-red-400/70" />
-              <span className="size-2.5 rounded-full bg-amber-300/70" />
-              <span className="size-2.5 rounded-full bg-emerald-status/70" />
-            </div>
-            <span className="flex items-center gap-1.5 font-mono text-xs text-muted-slate">
-              <Terminal size={12} aria-hidden="true" /> pipeline.log
-            </span>
-            <span
-              className={`font-mono text-xs ${
-                isRunning ? 'text-white' : status === 'done' ? 'text-emerald-status' : 'text-muted-slate'
-              }`}
-            >
-              {isRunning ? 'running' : status === 'done' ? 'done' : 'idle'}
-            </span>
-          </div>
-
-          <div
-            ref={terminalRef}
-            role="log"
-            aria-live="off"
-            aria-label="Pipeline execution logs"
-            className="h-80 overflow-y-auto p-4 font-mono text-xs leading-relaxed sm:text-[13px]"
-          >
-            {logs.length === 0 ? (
-              <p className="text-muted-slate">
-                <span className="text-white/50">$</span> idle
-                <br />
-                <span className="text-muted-slate/70">
-                  Pick a pipeline and press “Run demo”.
+          {/* JSON output */}
+          {status === 'done' && (
+            <div className="animate-fade-in overflow-hidden rounded-lg border border-emerald-status/25 bg-[#060a12]">
+              <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[11px] text-emerald-status">
+                  <Braces size={12} aria-hidden="true" /> output.json
+                  <CheckCircle2 size={12} aria-hidden="true" />
                 </span>
-              </p>
-            ) : (
-              logs.map((log) => {
-                const style = logStyles[log.level];
-                return (
-                  <div key={log.id} className="flex gap-3 break-words">
-                    <span className="shrink-0 text-muted-slate/60">{log.time}</span>
-                    <span className={`shrink-0 ${style.text}`}>[{style.tag}]</span>
-                    <span className={`min-w-0 ${style.text}`}>{log.message}</span>
-                  </div>
-                );
-              })
-            )}
-          </div>
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-white/12 px-2.5 py-1 font-mono text-[11px] text-white transition-colors hover:border-white/25"
+                >
+                  {copyState === 'copied' ? (
+                    <Check size={12} className="text-emerald-status" aria-hidden="true" />
+                  ) : (
+                    <Copy size={12} aria-hidden="true" />
+                  )}
+                  <span aria-live="polite">
+                    {copyState === 'copied' ? 'Copied!' : copyState === 'failed' ? 'Failed' : 'Copy'}
+                  </span>
+                </button>
+              </div>
+              <pre className="max-h-56 overflow-auto p-3 font-mono text-[11px] leading-relaxed text-slate-300 sm:text-xs">
+                <code>{highlightJson(jsonText)}</code>
+              </pre>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* ---------------- JSON output ---------------- */}
-      {status === 'done' && (
-        <div className="animate-fade-in overflow-hidden rounded-xl border border-emerald-status/30 bg-[#020C1B]">
-          <div className="flex items-center justify-between gap-3 border-b border-slate-border px-4 py-2.5">
-            <span className="flex items-center gap-2 font-mono text-xs text-emerald-status">
-              <Braces size={14} aria-hidden="true" /> output.json
-              <CheckCircle2 size={14} aria-hidden="true" />
-            </span>
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-white/15 px-3 py-1.5 font-mono text-xs text-white transition-colors hover:border-white/30"
-            >
-              {copyState === 'copied' ? (
-                <Check size={14} className="text-emerald-status" aria-hidden="true" />
-              ) : (
-                <Copy size={14} aria-hidden="true" />
-              )}
-              <span aria-live="polite">{copyState === 'copied' ? 'Copied!' : copyState === 'failed' ? 'Copy failed' : 'Copy JSON'}</span>
-            </button>
-          </div>
-          <pre className="max-h-96 overflow-auto p-4 font-mono text-xs leading-relaxed text-slate-300 sm:text-[13px]">
-            <code>{highlightJson(jsonText)}</code>
-          </pre>
-        </div>
-      )}
     </div>
   );
 }
