@@ -621,9 +621,12 @@ export default function ProjectShowcase() {
       <div>
         <header className="max-w-2xl">
           <p className="section-kicker">Flagship systems</p>
-          <h2 className="section-heading mt-2">Mortgage AI for brokers &amp; lending teams</h2>
+          <h2 className="section-heading mt-2">
+            Flagship AI agents for mortgage brokers &amp; lending teams
+          </h2>
           <p className="mt-3 text-muted-slate">
-            Two production-shaped agents: document intake and 24/7 lead pre-qualification.
+            Two production-shaped agents: document intake and 24/7 lead pre-qualification — examples of
+            custom AI agent development services you can scope for your brokerage.
           </p>
         </header>
         <div className="mt-8 grid content-start gap-6 md:grid-cols-2">

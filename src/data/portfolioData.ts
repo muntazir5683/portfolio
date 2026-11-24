@@ -296,9 +296,9 @@ export const serviceOffers: ServiceOffer[] = [
   {
     id: 'voice-sms-receptionist',
     title: '24/7 AI Voice & SMS Lead Receptionist',
-    tagline: 'Never miss a borrower after hours',
+    tagline: 'AI voice agent to answer calls for mortgage brokers',
     description:
-      'Answers inbound calls and texts around the clock, asks loan-intent questions, qualifies for purchase vs refinance, and books warm handoffs to your LO — without a call-center seat.',
+      'An AI voice agent to answer calls for mortgage brokers and texts around the clock — asks loan-intent questions, qualifies purchase vs refinance, and books warm handoffs to your LO without a call-center seat.',
     outcomes: [
       'Capture nights & weekend leads',
       'Purchase / refi / cash-out routing',
@@ -311,7 +311,7 @@ export const serviceOffers: ServiceOffer[] = [
     title: 'Automated Loan Doc & Bank Statement Parser',
     tagline: 'DTI & income extraction from messy PDFs',
     description:
-      'Reads W-2s, paystubs, and bank statements; extracts income, deposits, and liabilities; and returns structured fields your team can trust before underwriting triage.',
+      'Part of a best AI lending agent for mortgage brokers stack: reads W-2s, paystubs, and bank statements; extracts income, deposits, and liabilities; and returns structured fields your team can trust before underwriting triage.',
     outcomes: [
       'W-2 / paystub / statement OCR + LLM',
       'Income & DTI draft fields',
@@ -322,9 +322,9 @@ export const serviceOffers: ServiceOffer[] = [
   {
     id: 'followup-los-sync',
     title: 'Automated Borrower Follow-Up & LOS/CRM Sync',
-    tagline: 'Keep pipelines warm without manual chasing',
+    tagline: 'LOS/CRM automation that keeps pipelines warm',
     description:
-      'Sequences SMS/email nudges for missing docs, status updates, and rate-lock reminders, then writes activity back to your LOS or CRM so nothing falls through the cracks.',
+      'Custom agentic AI development services for borrower chase: SMS/email nudges for missing docs, status updates, and rate-lock reminders — then activity writes back to your LOS or CRM.',
     outcomes: [
       'Doc-request chase sequences',
       'Status & rate-lock reminders',

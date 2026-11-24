@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { CONTACT_EMAIL, CONTACT_LINKEDIN, profile } from '../data/portfolioData';
 
 interface Props {
   title?: string;
@@ -7,15 +8,123 @@ interface Props {
   image?: string;
 }
 
+const DEFAULT_TITLE =
+  'Custom AI Agents for Mortgage Brokers & Lending Teams | Syed Muntazir';
+const DEFAULT_DESCRIPTION =
+  'Custom AI agent development services for US mortgage brokers. Automate inbound calls with an AI voice agent, parse W-2s & bank statements, and pre-qualify borrowers 24/7.';
+
 const {
-  title = 'Syed Muntazir | Custom Python AI Agents for US Mortgage Brokers',
-  description =
-    'Custom Python AI agents for independent US mortgage brokers — 24/7 lead pre-qualification, W-2 & bank statement parsing, and borrower follow-up with LOS/CRM sync.',
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
   image = '/favicon.svg',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const imageURL = new URL(image, Astro.site);
+const siteOrigin = Astro.site ?? new URL('https://syedmuntazir.dev');
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
+const imageURL = new URL(image, siteOrigin);
+const sitemapURL = new URL('/sitemap-index.xml', siteOrigin).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${siteOrigin.href}#person`,
+      name: profile.name,
+      url: siteOrigin.href,
+      jobTitle: 'Mortgage AI Engineer',
+      description: DEFAULT_DESCRIPTION,
+      email: CONTACT_EMAIL.trim() || undefined,
+      sameAs: [
+        'https://github.com/muntazir5683',
+        CONTACT_LINKEDIN.trim() || undefined,
+        'https://www.fiverr.com/s/gvyGR7E',
+      ].filter(Boolean),
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${siteOrigin.href}#service`,
+      name: 'Custom AI Agent Development Services for US Mortgage Brokers',
+      url: siteOrigin.href,
+      description: DEFAULT_DESCRIPTION,
+      image: imageURL.href,
+      provider: { '@id': `${siteOrigin.href}#person` },
+      areaServed: {
+        '@type': 'Country',
+        name: 'United States',
+      },
+      audience: {
+        '@type': 'Audience',
+        audienceType: 'Independent US Mortgage Brokers & Lending Teams',
+      },
+      serviceType: [
+        'Custom AI agent development services',
+        'Custom agentic AI development services',
+        'AI agents for mortgage brokers',
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Mortgage AI Agent Services',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Voice Lead Receptionist',
+              description:
+                'AI voice agent to answer calls for mortgage brokers — 24/7 inbound voice & SMS lead pre-qualification.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'Loan Document & W-2 Parser',
+              description:
+                'Automated parsing of W-2s, paystubs, and bank statements for income and DTI draft fields.',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: 'LOS/CRM Automation',
+              description:
+                'Automated borrower follow-up sequences with activity sync into LOS and CRM systems.',
+            },
+          },
+        ],
+      },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${siteOrigin.href}#software`,
+      name: 'Custom AI Agents for Mortgage Brokers',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      description:
+        'Best AI lending agent tooling for mortgage brokers — voice pre-qual, document parsing, and LOS/CRM sync as custom builds.',
+      offers: {
+        '@type': 'Offer',
+        availability: 'https://schema.org/InStock',
+        price: '0',
+        priceCurrency: 'USD',
+        description: 'Custom scoped builds — contact for a brokerage brief',
+      },
+      creator: { '@id': `${siteOrigin.href}#person` },
+      provider: { '@id': `${siteOrigin.href}#service` },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteOrigin.href}#website`,
+      url: siteOrigin.href,
+      name: DEFAULT_TITLE,
+      description: DEFAULT_DESCRIPTION,
+      publisher: { '@id': `${siteOrigin.href}#person` },
+      inLanguage: 'en-US',
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -24,10 +133,11 @@ const imageURL = new URL(image, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#0B1120" />
+    <meta name="theme-color" content="#090D16" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href={sitemapURL} />
 
     <!-- Primary SEO -->
     <title>{title}</title>
@@ -35,29 +145,34 @@ const imageURL = new URL(image, Astro.site);
     <meta name="author" content="Syed Muntazir" />
     <meta
       name="keywords"
-      content="Syed Muntazir, Mortgage AI, US Mortgage Brokers, Lead Pre-Qualification, W-2 Parser, Bank Statement OCR, Python, FastAPI, React"
+      content="ai agents for mortgage brokers, ai voice agent to answer calls for mortgage brokers, best ai lending agent for mortgage brokers, custom ai agent development services, custom agentic ai development services, W-2 parser, bank statement OCR, LOS CRM automation"
     />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Syed Muntazir" />
+    <meta property="og:site_name" content="Syed Muntazir — Mortgage AI Engineer" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={imageURL} />
+    <meta property="og:image:alt" content="Custom AI agents for mortgage brokers by Syed Muntazir" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
+    <meta name="twitter:image:alt" content="Custom AI agents for mortgage brokers by Syed Muntazir" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Google Fonts (display=swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Loaded non-blocking (print -> all) so fonts never delay FCP/LCP -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
